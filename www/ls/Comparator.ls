@@ -60,11 +60,7 @@ class ig.Comparator
 
     @yScale = d3.scale.linear!
       ..range [height, 0]
-
-    @data = data.map ({country, years}) ~>
-      years .= filter ~> it.year >= @startYear
-      {country, years}
-    @data .= filter -> sensibleCountries[it.country.name]
+    @data = data.filter -> sensibleCountries[it.name]
     # @zeroLine = @drawing.append \line
     #   ..attr \class \zero-line
     #   ..attr \x1 -20
@@ -76,14 +72,13 @@ class ig.Comparator
 
   display: (metric) ->
     values = []
-    displayable = for {country, years} in @data
-      years .= filter -> it[metric].value isnt null
-      for year in years
-        year.comparatorRate = year[metric].value# / years[0][metric].value
+    # @data .= filter ~> it.dates.civil <= @endYear or it.dates.marriage <= @endYear
+    for {years}:country in @data
+      country.comparatorYears = country.years.filter ~>
+        it.year >= @startYear and it[metric].value isnt null
+      for year in country.comparatorYears
+        year.comparatorRate = year[metric].value / years[0][metric].value
         values.push year.comparatorRate
-      if country.name == "Cyprus"
-        console.log years.map (.comparatorRate)
-      {country, years}
     # console.log d3.extent values
     @yScale.domain d3.extent values
     # @yScale.domain [0.42028985507246375, 1.5357142857142856]
@@ -97,37 +92,37 @@ class ig.Comparator
     #   .attr \y1 @yScale 1
     #   .attr \y2 @yScale 1
 
-    @pathsG.selectAll \g.country .data displayable
+    @pathsG.selectAll \g.country .data @data
       ..enter!
         ..append \g
-          ..attr \class -> "country" + if it.country.name == "Slovakia" then " slovakia" else ""
+          ..attr \class -> "country" + if it.name == "Slovakia" then " slovakia" else ""
           ..append \path
             ..attr \class \none
-            ..datum ({country, years}) ~>
-              years.filter -> it.year <= (Math.min country.dates.civil, country.dates.marriage)
+            ..datum ({comparatorYears}:country) ~>
+              comparatorYears.filter -> it.year <= (Math.min country.dates.civil, country.dates.marriage)
           ..append \path
             ..attr \class \civil
-            ..datum ({country, years}) ~>
-              years.filter -> country.dates.civil <= it.year <= country.dates.marriage
+            ..datum ({comparatorYears}:country) ~>
+              comparatorYears.filter -> country.dates.civil <= it.year <= country.dates.marriage
           ..append \path
             ..attr \class \marriage
-            ..datum ({country, years}) ~>
-              years.filter -> country.dates.marriage <= it.year
+            ..datum ({comparatorYears}:country) ~>
+              comparatorYears.filter -> country.dates.marriage <= it.year
           ..append \circle
             ..attr \r 4
-          ..attr \data-tooltip ~> "#{it.country.name}"
+          ..attr \data-tooltip ~> "#{it.name}"
       ..selectAll \path
         ..attr \d line
       ..selectAll \circle
-        ..attr \cx ~> @xScale it.years[*-1].year
-        ..attr \cy ~> @yScale it.years[*-1].comparatorRate
+        ..attr \cx ~> @xScale it.comparatorYears[*-1].year
+        ..attr \cy ~> @yScale it.comparatorYears[*-1].comparatorRate
         ..attr \class ~>
-            year = it.years[*-1].year
-            if year > it.country.dates.marriage
+            year = it.comparatorYears[*-1].year
+            if year > it.dates.marriage
               "marriage"
-            else if year > it.country.dates.civil
+            else if year > it.dates.civil
               "civil"
-            else if it.country.name == "Slovakia"
+            else if it.name == "Slovakia"
               "slovakia"
             else
               ""

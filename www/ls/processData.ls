@@ -1,11 +1,13 @@
+allYears = [1960 to 2012]
 class Country
-  (@name, @dates) ->
+  (@name, @dates, @years) ->
+    # @firstYears =
+    #   @
 
 ig.processData = ->
   dates = processDates!
   lines = ig.data.stats.split "\n"
     ..shift!
-  allYears = [1960 to 2012]
   allMetrics =
     "abortions-total"
     "abortions-teen"
@@ -21,7 +23,6 @@ ig.processData = ->
   countries = for line in lines
     [countryName, ...years] = line.split "\t"
     id = countryName
-    country = new Country countryName, dates[countryName]
     years .= map (d, i) ->
       year = allYears[i]
       yearData = {year}
@@ -34,7 +35,7 @@ ig.processData = ->
           null
         yearData[metric] = {value, footnotes}
       yearData
-    {country, id, years}
+    country = new Country countryName, dates[countryName], years
   countries
 
 processDates = ->
