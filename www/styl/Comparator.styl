@@ -15,9 +15,23 @@
       &.marriage
         stroke prideRed
         stroke-width 2
+    circle
+      fill white
+      stroke-width 1
+      stroke #a
+      fill lighten(#a, 90%)
+      &.civil
+        stroke prideOrange
+        fill lighten(prideOrange, 90%)
+      &.marriage
+        stroke prideRed
+        fill lighten(prideRed, 90%)
+      &.slovakia
+        stroke black
+        fill #3
     .country:hover path
       stroke-width 3
     .country.slovakia
       path
         stroke-width 2
-        stroke black
+        stroke #3

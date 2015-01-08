@@ -36,6 +36,7 @@ sensibleCountries =
 
 class ig.Comparator
   startYear: 1990
+  endYear: 2012
   (@baseElement, data) ->
     width = 1000
     height = 600
@@ -54,7 +55,7 @@ class ig.Comparator
       ..attr \class \paths
 
     @xScale = d3.scale.linear!
-      ..domain [@startYear, 2012]
+      ..domain [@startYear, @endYear]
       ..range [0, width]
 
     @yScale = d3.scale.linear!
@@ -112,9 +113,24 @@ class ig.Comparator
             ..attr \class \marriage
             ..datum ({country, years}) ~>
               years.filter -> country.dates.marriage <= it.year
+          ..append \circle
+            ..attr \r 4
       ..selectAll \path
         ..attr \d line
         ..attr \data-tooltip (d, i, ii) ~> "#{@data[ii].country.name}"
+      ..selectAll \circle
+        ..attr \cx ~> @xScale it.years[*-1].year
+        ..attr \cy ~> @yScale it.years[*-1].comparatorRate
+        ..attr \class ~>
+            year = it.years[*-1].year
+            if year > it.country.dates.marriage
+              "marriage"
+            else if year > it.country.dates.civil
+              "civil"
+            else if it.country.name == "Slovakia"
+              "slovakia"
+            else
+              ""
 
 
 
