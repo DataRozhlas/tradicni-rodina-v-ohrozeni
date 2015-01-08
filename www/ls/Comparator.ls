@@ -65,14 +65,14 @@ class ig.Comparator
       years .= filter ~> it.year >= @startYear
       {country, years}
     @data .= filter -> sensibleCountries[it.country.name]
-    @zeroLine = @drawing.append \line
-      ..attr \class \zero-line
-      ..attr \x1 -20
-      ..attr \x2 width + 10
-      ..attr \y1 10
-      ..attr \y2 10
+    # @zeroLine = @drawing.append \line
+    #   ..attr \class \zero-line
+    #   ..attr \x1 -20
+    #   ..attr \x2 width + 10
+    #   ..attr \y1 10
+    #   ..attr \y2 10
 
-    @display "fertility-rate"
+    @display "marriage-rate"
 
   display: (metric) ->
     values = []
@@ -93,9 +93,9 @@ class ig.Comparator
       ..y ~> @yScale it.comparatorRate
       ..interpolate \basis
 
-    @zeroLine
-      .attr \y1 @yScale 1
-      .attr \y2 @yScale 1
+    # @zeroLine
+    #   .attr \y1 @yScale 1
+    #   .attr \y2 @yScale 1
 
     @pathsG.selectAll \g.country .data displayable
       ..enter!
@@ -115,9 +115,9 @@ class ig.Comparator
               years.filter -> country.dates.marriage <= it.year
           ..append \circle
             ..attr \r 4
+          ..attr \data-tooltip ~> "#{it.country.name}"
       ..selectAll \path
         ..attr \d line
-        ..attr \data-tooltip (d, i, ii) ~> "#{@data[ii].country.name}"
       ..selectAll \circle
         ..attr \cx ~> @xScale it.years[*-1].year
         ..attr \cy ~> @yScale it.years[*-1].comparatorRate
