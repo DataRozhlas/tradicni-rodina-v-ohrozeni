@@ -1,0 +1,20 @@
+Fertilita, deti mimo manzelstvi
+http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=demo_find&lang=en
+
+Teen pregnancy
+http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=demo_fordager&lang=en
+
+Potraty, vcetne teen
+http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=demo_fabort&lang=en
+
+Umrti na HIV
+http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=hlth_cd_asdr&lang=en
+
+Rozvodovost
+http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=demo_ndivind&lang=en
+
+Manzelstvi - pocet sezdanych, prumerny vek prvniho manzelstvi
+http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=demo_nind&lang=en
+
+Timeline
+http://en.wikipedia.org/wiki/Timeline_of_same-sex_marriage#1989
