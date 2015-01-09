@@ -34,6 +34,47 @@
       &.subheader1
         a
           text-transform lowercase
+    ul
+      list-style-type none !important
+      margin 6px 0px 0px 0px !important
+      padding 0px !important
+      li
+        padding 0px !important
+        margin 0px 0px 0px 40px !important
+        background none
+        float right
+        position relative
+        span:first-child
+          &:before
+            content " "
+            width 9px
+            height 9px
+            border-radius 50%
+            position absolute
+            top 6px
+            left -17px
+          &:after
+            content " "
+            position absolute
+            width 10px
+            height 1px
+            background red
+            top 10px
+            left -27px
+        &:first-child span:first-child:before
+        &:first-child span:first-child:after
+          background lighten(prideRed, 00%)
+          border-color lighten(prideRed, 00%)
+        &:nth-child(2) span:first-child:before
+        &:nth-child(2) span:first-child:after
+          background lighten(prideOrange, 00%)
+          border-color lighten(prideOrange, 00%)
+        &:nth-child(3) span:first-child:before
+        &:nth-child(3) span:first-child:after
+          background lighten(#a, 00%)
+          border-color lighten(#a, 00%)
+
+
 
   .shade
     position absolute

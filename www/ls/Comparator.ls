@@ -273,6 +273,16 @@ class ig.Comparator
           ..on \click ~>
             d3.event.preventDefault!
             @toggleDrawChangeFromFirstCivil!
+      ..append \ul
+        ..append \li
+          ..append \span
+          ..append \span .html "Stejnopohlavní manželství"
+        ..append \li
+          ..append \span
+          ..append \span .html "Registrované partnerství"
+        ..append \li
+          ..append \span
+          ..append \span .html "Žádná forma stejnopohlavních svazků"
 
 polygon = ->
   "M#{it.join "L"}Z"
