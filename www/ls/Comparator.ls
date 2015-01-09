@@ -46,6 +46,10 @@ class ig.Comparator
       ..attr \class \comparator
       ..attr \width width
       ..attr \height height
+    @voronoiSvg = @baseElement.append \svg
+      ..attr \class \voronoi
+      ..attr \width width
+      ..attr \height height
     margin = top: 10 right: 20 bottom: 10 left: 60
     @width = width - margin.right - margin.left
     @height = height - margin.top - margin.bottom
@@ -70,6 +74,11 @@ class ig.Comparator
       ..range [@height, 0]
     @data = data.filter -> sensibleCountries[it.name]
 
+    @voronoi = d3.geom.voronoi!
+      ..x ~> margin.left + it.comparatorOffset * (@terminatorRadius + 0.5) + @xScale it.year
+      ..y ~> margin.top + @yScale it.comparatorRate
+      ..clipExtent [[0,0], [width, height]]
+
     @display "marriage-rate"
 
   display: (metric, drawChangeFromFirstCivil) ->
@@ -87,10 +96,10 @@ class ig.Comparator
         year.comparatorRate = year[metric].value
         if drawChangeFromFirstCivil
           year.comparatorRate /= (country.firstYears.civil || country.firstYears.marriage)[metric].value
-        values.push year.comparatorRate
+        values.push year
       country.comparatorLastYear = country.comparatorYears[*-1]
 
-    @yScale.domain d3.extent values
+    @yScale.domain d3.extent values.map (.comparatorRate)
     for country in data
       country.comparatorLastY = @yScale country.comparatorLastYear.comparatorRate
     data.sort (a, b) ->
@@ -128,7 +137,7 @@ class ig.Comparator
       .attr \y1 zeryY
       .attr \y2 zeryY
 
-    @pathsG.selectAll \g.country .data data
+    @paths = @pathsG.selectAll \g.country .data data
       ..enter!
         ..append \g
           ..attr \class -> "country" + if it.isSlovakia then " slovakia" else ""
@@ -148,7 +157,7 @@ class ig.Comparator
       ..selectAll \path
         ..attr \d line
 
-    @terminatorsG.selectAll \circle .data data
+    @terminators = @terminatorsG.selectAll \circle .data data
       ..enter!
         ..append \circle
           ..attr \r @terminatorRadius
@@ -166,7 +175,27 @@ class ig.Comparator
         it.comparatorLastYear.comparatorOffset * (@terminatorRadius + 0.5) + @xScale it.comparatorLastYear.year
       ..attr \cy ~> @yScale it.comparatorLastYear.comparatorRate
 
+    @drawVoronoi values
+    @highlightCountry data.0
 
+  drawVoronoi: (values) ->
+    voronoi = @voronoi values
+      .filter -> it
+    @voronoiSvg.selectAll \path .remove!
+    @voronoiSvg.selectAll \path .data voronoi .enter!append \path
+      ..attr \d polygon
+      ..on \mouseover ~> @highlightCountry it.point.country
+      ..on \mouseout ~> @downlightCountry it.point.country
 
+  highlightCountry: (country) ->
+    @paths
+      .classed \active no
+      .filter -> it is country
+      .classed \active yes
 
+  downlightCountry: ->
+    @paths.classed \active no
+
+polygon = ->
+  "M#{it.join "L"}Z"
 
