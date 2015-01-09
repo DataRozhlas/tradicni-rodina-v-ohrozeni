@@ -59,6 +59,8 @@ class ig.Comparator
       ..attr \y2 10
     @pathsG = @drawing.append \g
       ..attr \class \paths
+    @terminatorsG = @drawing.append \g
+      ..attr \class \terminators
 
     @xScale = d3.scale.linear!
       ..domain [@startYear, @endYear]
@@ -142,25 +144,27 @@ class ig.Comparator
             ..attr \class \marriage
             ..datum ({comparatorYears}:country) ~>
               comparatorYears.filter -> country.dates.marriage <= it.year
-          ..append \circle
-            ..attr \r @terminatorRadius
           ..attr \data-tooltip ~> "#{it.name}"
       ..selectAll \path
         ..attr \d line
-      ..selectAll \circle
-        ..attr \cx ~>
-          it.comparatorLastYear.comparatorOffset * (@terminatorRadius + 0.5) + @xScale it.comparatorLastYear.year
-        ..attr \cy ~> @yScale it.comparatorLastYear.comparatorRate
-        ..attr \class ~>
-            year = it.comparatorYears[*-1].year
-            if year > it.dates.marriage
-              "marriage"
-            else if year > it.dates.civil
-              "civil"
-            else if it.name == "Slovakia"
-              "slovakia"
-            else
-              ""
+
+    @terminatorsG.selectAll \circle .data data
+      ..enter!
+        ..append \circle
+          ..attr \r @terminatorRadius
+          ..attr \class ~>
+              year = it.comparatorYears[*-1].year
+              if year > it.dates.marriage
+                "marriage"
+              else if year > it.dates.civil
+                "civil"
+              else if it.name == "Slovakia"
+                "slovakia"
+              else
+                ""
+      ..attr \cx ~>
+        it.comparatorLastYear.comparatorOffset * (@terminatorRadius + 0.5) + @xScale it.comparatorLastYear.year
+      ..attr \cy ~> @yScale it.comparatorLastYear.comparatorRate
 
 
 
