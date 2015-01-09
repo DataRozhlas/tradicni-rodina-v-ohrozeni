@@ -143,7 +143,7 @@ class ig.Comparator
     line = d3.svg.line!
       ..x ~> it.comparatorOffset * (@terminatorRadius + 0.5) + @xScale it.year
       ..y ~> @yScale it.comparatorRate
-      ..interpolate \basis
+      ..interpolate \cardinal
     zeryY = if drawChangeFromFirstCivil
       @yScale 1
     else
