@@ -54,6 +54,8 @@ class ig.Comparator
   (@parentElement, data) ->
     @fullWidth  = width = 1000
     @fullHeight = height = 600
+    @parentElement.append \div
+      ..attr \class \shade
     @svg = @parentElement.append \svg
       ..attr \class \comparator
       ..attr \width width
