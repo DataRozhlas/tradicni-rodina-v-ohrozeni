@@ -38,13 +38,13 @@ class Metric
 metricsHuman =
   "abortions-total"         : new Metric "abortions-total" "Potraty"
   "abortions-teen"          : new Metric "abortions-teen" "Potraty náctiletých"
-  "births-outside-marriage" : new Metric "births-outside-marriage" "Narozené děti mimo manželství"
-  "fertility-rate"          : new Metric "fertility-rate" "Porodnost"
+  "births-outside-marriage" : new Metric "births-outside-marriage" "Narozené děti mimo manželství" "Podíl dětí narozených mimo manželství"
+  "fertility-rate"          : new Metric "fertility-rate" "Porodnost" "Narozených dětí na 1000 obyvatel"
   "age-at-first-child"      : new Metric "age-at-first-child" "Věk matky při narození prvního dítěte"
   "pregnancies-total"       : new Metric "pregnancies-total" "Těhotenství"
   "pregnancies-teen"        : new Metric "pregnancies-teen" "Těhotenství náctiletých"
-  "divorce-rate"            : new Metric "divorce-rate" "Rozvodovost"
-  "marriage-rate"           : new Metric "marriage-rate" "Sňatečnost" "sňatků na 1000 obyvatel"
+  "divorce-rate"            : new Metric "divorce-rate" "Rozvodovost" "Rozvodů na 1000 obyvatel"
+  "marriage-rate"           : new Metric "marriage-rate" "Sňatečnost" "Sňatků na 1000 obyvatel"
   "hiv-rate"                : new Metric "hiv-rate" "Úmrtí na HIV"
 
 class ig.Comparator
@@ -56,6 +56,8 @@ class ig.Comparator
     @fullHeight = height = 600
     @parentElement.append \div
       ..attr \class \shade
+    @createHeader!
+    @drawChangeFromFirstCivil = no
     @svg = @parentElement.append \svg
       ..attr \class \comparator
       ..attr \width width
@@ -95,10 +97,15 @@ class ig.Comparator
     @graphTip = new ig.GraphTip @
     @display "marriage-rate"
 
-  display: (metric, drawChangeFromFirstCivil) ->
+  toggleDrawChangeFromFirstCivil: ->
+    @drawChangeFromFirstCivil = !@drawChangeFromFirstCivil
+    @display @currentMetric.id
+
+  display: (metric) ->
     @currentMetric = metricsHuman[metric]
+    @updateHeader @currentMetric
     values = []
-    data = if drawChangeFromFirstCivil
+    data = if @drawChangeFromFirstCivil
       @data.filter ~>
         (it.firstYears.civil || it.firstYears.marriage) && ((it.firstYears.civil || it.firstYears.marriage)[metric].value)
     else
@@ -109,7 +116,7 @@ class ig.Comparator
       for year in country.comparatorYears
         year.comparatorOffset = 0
         year.comparatorRate = year[metric].value
-        if drawChangeFromFirstCivil
+        if @drawChangeFromFirstCivil
           year.comparatorRate /= (country.firstYears.civil || country.firstYears.marriage)[metric].value
         values.push year
       country.comparatorLastYear = country.comparatorYears[*-1]
@@ -144,7 +151,7 @@ class ig.Comparator
       ..x ~> it.comparatorOffset * (@terminatorRadius + 0.5) + @xScale it.year
       ..y ~> @yScale it.comparatorRate
       ..interpolate \cardinal
-    zeryY = if drawChangeFromFirstCivil
+    zeryY = if @drawChangeFromFirstCivil
       @yScale 1
     else
       @height + 20
@@ -209,7 +216,7 @@ class ig.Comparator
   displayGraphTip: (point) ->
     text = "<h3>#{point.country.name}</h3>"
     text += "<p><span class='metric'>#{@currentMetric.name}</span> v roce #{point.year}: <br>
-      <b>#{ig.utils.formatNumber point[@currentMetric.id].value, 2}</b> #{@currentMetric.unit}<br></p>"
+      <b>#{ig.utils.formatNumber point[@currentMetric.id].value, 2}</b> <span class='unit'>#{@currentMetric.unit}</span><br></p>"
     rights = if point.country.firstYears.marriage?year < point.year
       "V tomto roce zde již bylo legální manželství stejnopohlavních párů"
     else if point.country.firstYears.civil?year < point.year
@@ -227,6 +234,45 @@ class ig.Comparator
 
   downlightCountry: ->
     @paths.classed \active no
+
+  updateHeader: (metric) ->
+    @header
+      ..select "span.metric" .html metric.name
+      ..select "span.unit" .html metric.unit
+      ..selectAll ".link a"
+        .classed \active no
+        .filter -> it is metric.id
+        .classed \active yes
+      ..select \a.changeFromFirstCivil
+        ..html if @drawChangeFromFirstCivil then "Zobrazit jako vývoj hodnot" else "Zobrazit jako změnu od zavedení registrovaného partnerství"
+
+  createHeader: ->
+    @header = @parentElement.append \div
+      ..attr \class \header
+      ..append \h2
+        ..html "<span class='metric'></span> v Evropě mezi roky 1990 a 2012"
+      ..append \span
+        ..attr \class "subheader subheader1"
+        ..html "<b><span class='unit'></span> v Evropě mezi roky 1990 a 2012.</b><br>Zobrazit "
+        ..selectAll \span.link .data <[divorce-rate births-outside-marriage fertility-rate marriage-rate]> .enter!append \span
+          ..attr \class \link
+          ..append \a
+            ..attr \href \#
+            ..html -> metricsHuman[it].name
+            ..on \click ~>
+              d3.event.preventDefault!
+              @display it
+          ..append \span
+            ..attr \class \divider
+            ..html ", "
+      ..append \span
+        ..attr \class "subheader subheader2"
+        ..append \a
+          ..attr \class "changeFromFirstCivil"
+          ..attr \href \#
+          ..on \click ~>
+            d3.event.preventDefault!
+            @toggleDrawChangeFromFirstCivil!
 
 polygon = ->
   "M#{it.join "L"}Z"

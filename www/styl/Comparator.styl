@@ -3,6 +3,38 @@
   left -30px
   height 600px
   margin 18px 0px
+  margin-bottom 140px
+  .header
+    position absolute
+    bottom -100px
+    width 1000px
+    // left 200px
+    text-align right
+    h2
+      font-size 26px
+      font-weight 300
+      color #1
+      margin 0px
+      display none
+    span.subheader
+      display block
+      line-height 26px
+      font-size 16px
+      color #4
+      a
+        color #4 !important
+        &:hover
+          text-decoration none
+      span.link:last-of-type
+        .divider
+          display none
+      span.link
+        a.active
+          color prideOrange !important
+      &.subheader1
+        a
+          text-transform lowercase
+
   .shade
     position absolute
     top 0px
@@ -52,3 +84,5 @@
   .graph-tip
     h3
       margin 0px
+    .unit
+      text-transform lowercase
