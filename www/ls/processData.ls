@@ -1,8 +1,10 @@
 allYears = [1960 to 2012]
 class Country
   (@name, @dates, @years) ->
-    # @firstYears =
-    #   @
+    @firstYears = {}
+    for type, year of @dates
+      index = allYears.indexOf year
+      @firstYears[type] = @years[index]
 
 ig.processData = ->
   dates = processDates!

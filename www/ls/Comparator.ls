@@ -46,38 +46,43 @@ class ig.Comparator
       ..attr \width width
       ..attr \height height
     margin = top: 0 right: 20 bottom: 0 left: 60
-    width = width - margin.right - margin.left
-    height = height - margin.top - margin.bottom
-
+    @width = width - margin.right - margin.left
+    @height = height - margin.top - margin.bottom
     @drawing = @svg.append \g
       ..attr \transform "translate(#{margin.left}, #{margin.top})"
+    @zeroLine = @drawing.append \line
+      ..attr \class \zero-line
+      ..attr \x1 -20
+      ..attr \x2 @width + 10
+      ..attr \y1 10
+      ..attr \y2 10
     @pathsG = @drawing.append \g
       ..attr \class \paths
 
     @xScale = d3.scale.linear!
       ..domain [@startYear, @endYear]
-      ..range [0, width]
+      ..range [0, @width]
 
     @yScale = d3.scale.linear!
       ..range [height, 0]
     @data = data.filter -> sensibleCountries[it.name]
-    # @zeroLine = @drawing.append \line
-    #   ..attr \class \zero-line
-    #   ..attr \x1 -20
-    #   ..attr \x2 width + 10
-    #   ..attr \y1 10
-    #   ..attr \y2 10
 
     @display "marriage-rate"
 
-  display: (metric) ->
+  display: (metric, drawChangeFromFirstCivil) ->
     values = []
-    # @data .= filter ~> it.dates.civil <= @endYear or it.dates.marriage <= @endYear
-    for {years}:country in @data
+    data = if drawChangeFromFirstCivil
+      @data.filter ~>
+        (it.firstYears.civil || it.firstYears.marriage) && ((it.firstYears.civil || it.firstYears.marriage)[metric].value)
+    else
+      @data.slice!
+    for {years}:country in data
       country.comparatorYears = country.years.filter ~>
         it.year >= @startYear and it[metric].value isnt null
       for year in country.comparatorYears
-        year.comparatorRate = year[metric].value / years[0][metric].value
+        year.comparatorRate = year[metric].value
+        if drawChangeFromFirstCivil
+          year.comparatorRate /= (country.firstYears.civil || country.firstYears.marriage)[metric].value
         values.push year.comparatorRate
     # console.log d3.extent values
     @yScale.domain d3.extent values
@@ -87,12 +92,15 @@ class ig.Comparator
       ..x ~> @xScale it.year
       ..y ~> @yScale it.comparatorRate
       ..interpolate \basis
+    zeryY = if drawChangeFromFirstCivil
+      @yScale 1
+    else
+      @height + 20
+    @zeroLine
+      .attr \y1 zeryY
+      .attr \y2 zeryY
 
-    # @zeroLine
-    #   .attr \y1 @yScale 1
-    #   .attr \y2 @yScale 1
-
-    @pathsG.selectAll \g.country .data @data
+    @pathsG.selectAll \g.country .data data
       ..enter!
         ..append \g
           ..attr \class -> "country" + if it.name == "Slovakia" then " slovakia" else ""
