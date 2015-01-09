@@ -33,28 +33,42 @@ sensibleCountries =
   "Malta" : 1
   # "Liechtenstein" : 1
   # "Bosnia and Herzegovina" : 1
+class Metric
+  (@id, @name, @unit = '') ->
+metricsHuman =
+  "abortions-total"         : new Metric "abortions-total" "Potraty"
+  "abortions-teen"          : new Metric "abortions-teen" "Potraty náctiletých"
+  "births-outside-marriage" : new Metric "births-outside-marriage" "Narozené děti mimo manželství"
+  "fertility-rate"          : new Metric "fertility-rate" "Porodnost"
+  "age-at-first-child"      : new Metric "age-at-first-child" "Věk matky při narození prvního dítěte"
+  "pregnancies-total"       : new Metric "pregnancies-total" "Těhotenství"
+  "pregnancies-teen"        : new Metric "pregnancies-teen" "Těhotenství náctiletých"
+  "divorce-rate"            : new Metric "divorce-rate" "Rozvodovost"
+  "marriage-rate"           : new Metric "marriage-rate" "Sňatečnost" "sňatků na 1000 obyvatel"
+  "hiv-rate"                : new Metric "hiv-rate" "Úmrtí na HIV"
 
 class ig.Comparator
   startYear: 1990
   endYear: 2012
   terminatorRadius: 4
   (@baseElement, data) ->
-    width = 1000
-    height = 600
-
-    @svg = @baseElement.append \svg
+    @fullWidth  = width = 1000
+    @fullHeight = height = 600
+    @container = @baseElement.append \div
+      ..attr \class \comparator
+    @svg = @container.append \svg
       ..attr \class \comparator
       ..attr \width width
       ..attr \height height
-    @voronoiSvg = @baseElement.append \svg
+    @voronoiSvg = @container.append \svg
       ..attr \class \voronoi
       ..attr \width width
       ..attr \height height
-    margin = top: 10 right: 20 bottom: 10 left: 60
-    @width = width - margin.right - margin.left
-    @height = height - margin.top - margin.bottom
+    @margin = top: 10 right: 20 bottom: 10 left: 60
+    @width = width - @margin.right - @margin.left
+    @height = height - @margin.top - @margin.bottom
     @drawing = @svg.append \g
-      ..attr \transform "translate(#{margin.left}, #{margin.top})"
+      ..attr \transform "translate(#{@margin.left}, #{@margin.top})"
     @zeroLine = @drawing.append \line
       ..attr \class \zero-line
       ..attr \x1 -20
@@ -75,13 +89,14 @@ class ig.Comparator
     @data = data.filter -> sensibleCountries[it.name]
 
     @voronoi = d3.geom.voronoi!
-      ..x ~> margin.left + it.comparatorOffset * (@terminatorRadius + 0.5) + @xScale it.year
-      ..y ~> margin.top + @yScale it.comparatorRate
+      ..x ~> @margin.left + it.comparatorOffset * (@terminatorRadius + 0.5) + @xScale it.year
+      ..y ~> @margin.top + @yScale it.comparatorRate
       ..clipExtent [[0,0], [width, height]]
-
+    @graphTip = new ig.GraphTip @
     @display "marriage-rate"
 
   display: (metric, drawChangeFromFirstCivil) ->
+    @currentMetric = metricsHuman[metric]
     values = []
     data = if drawChangeFromFirstCivil
       @data.filter ~>
@@ -176,7 +191,7 @@ class ig.Comparator
       ..attr \cy ~> @yScale it.comparatorLastYear.comparatorRate
 
     @drawVoronoi values
-    @highlightCountry data.0
+    # @displayGraphTip data.4.years[*-1]
 
   drawVoronoi: (values) ->
     voronoi = @voronoi values
@@ -184,8 +199,25 @@ class ig.Comparator
     @voronoiSvg.selectAll \path .remove!
     @voronoiSvg.selectAll \path .data voronoi .enter!append \path
       ..attr \d polygon
-      ..on \mouseover ~> @highlightCountry it.point.country
-      ..on \mouseout ~> @downlightCountry it.point.country
+      ..on \mouseover ~>
+        @displayGraphTip it.point
+        @highlightCountry it.point.country
+      ..on \mouseout ~>
+        @graphTip.hide!
+        @downlightCountry it.point.country
+
+  displayGraphTip: (point) ->
+    text = "<h3>#{point.country.name}</h3>"
+    text += "<p><span class='metric'>#{@currentMetric.name}</span> v roce #{point.year}: <br>
+      <b>#{ig.utils.formatNumber point[@currentMetric.id].value, 2}</b> #{@currentMetric.unit}<br></p>"
+    rights = if point.country.firstYears.marriage?year < point.year
+      "V tomto roce zde již bylo legální manželství stejnopohlavních párů"
+    else if point.country.firstYears.civil?year < point.year
+      "V tomto roce zde již byl institut registrovaného partnerství"
+    else
+      "V tomto roce zde nebyla žádná forma stejnopohlavních svazků"
+    text += "<p class='rights'>#{rights}</p>"
+    @graphTip.display point, text
 
   highlightCountry: (country) ->
     @paths

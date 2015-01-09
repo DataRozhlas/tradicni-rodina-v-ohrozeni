@@ -1,43 +1,47 @@
 .comparator
-  z-index 1
   position absolute
   top 0px
   left 0px
-  .zero-line
-    stroke black
-    shape-rendering crispEdges
+  height 600px
+  svg.comparator
+    z-index 1
+    position absolute
+    top 0px
+    left 0px
+    .zero-line
+      stroke black
+      shape-rendering crispEdges
 
-  .paths
-    path
-      fill none
-      stroke #a
-      stroke-width 1
-      stroke-opacity 0.5
-      &.civil
-        stroke prideOrange
-        // stroke-width 2
-      &.marriage
-        stroke prideRed
-        // stroke-width 2
-    .active path
-      stroke-width 3
-      stroke-opacity 1
-  .terminators
-    circle
-      fill white
-      fill lighten(#a, 00%)
-      &.civil
-        // stroke prideOrange
-        fill lighten(prideOrange, 00%)
-      &.marriage
-        // stroke prideRed
-        fill lighten(prideRed, 00%)
-      &.slovakia
-        stroke black
-        fill #3
-    .country:hover path
-      stroke-width 3
-    .country.slovakia
+    .paths
       path
-        stroke-width 1.5
-        stroke #3
+        fill none
+        stroke #a
+        stroke-width 1
+        stroke-opacity 0.5
+        &.civil
+          stroke prideOrange
+        &.marriage
+          stroke prideRed
+      .active path
+        stroke-width 3
+        stroke-opacity 1
+    .terminators
+      circle
+        fill white
+        fill lighten(#a, 00%)
+        &.civil
+          fill lighten(prideOrange, 00%)
+        &.marriage
+          fill lighten(prideRed, 00%)
+        &.slovakia
+          stroke black
+          fill #3
+      .country:hover path
+        stroke-width 3
+      .country.slovakia
+        path
+          stroke-width 1.5
+          stroke #3
+  .graph-tip
+    h3
+      margin 0px
