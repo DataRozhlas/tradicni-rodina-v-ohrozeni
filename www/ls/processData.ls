@@ -5,6 +5,8 @@ class Country
     for type, year of @dates
       index = allYears.indexOf year
       @firstYears[type] = @years[index]
+    if @name == \Slovakia
+      @isSlovakia = yes
 
 ig.processData = ->
   dates = processDates!
