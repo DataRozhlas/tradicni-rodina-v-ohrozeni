@@ -1,6 +1,6 @@
 class ig.GraphTip
   (@graph) ->
-    @element = @graph.container.append \div
+    @element = @graph.parentElement.append \div
       ..attr \class "graph-tip"
     @content = @element.append \div
       ..attr \class \content

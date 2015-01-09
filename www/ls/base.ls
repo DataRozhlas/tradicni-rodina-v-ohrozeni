@@ -2,8 +2,9 @@ inited = no
 init = ->
   return if inited
   inited := yes
+  ig.fit!
   data = ig.processData!
-  container = d3.select ig.containers.base
+  container = d3.select ig.containers.comparator
   comparator = new ig.Comparator container, data
   new Tooltip!watchElements!
 

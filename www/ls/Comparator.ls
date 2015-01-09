@@ -51,20 +51,18 @@ class ig.Comparator
   startYear: 1990
   endYear: 2012
   terminatorRadius: 4
-  (@baseElement, data) ->
+  (@parentElement, data) ->
     @fullWidth  = width = 1000
     @fullHeight = height = 600
-    @container = @baseElement.append \div
-      ..attr \class \comparator
-    @svg = @container.append \svg
+    @svg = @parentElement.append \svg
       ..attr \class \comparator
       ..attr \width width
       ..attr \height height
-    @voronoiSvg = @container.append \svg
+    @voronoiSvg = @parentElement.append \svg
       ..attr \class \voronoi
       ..attr \width width
       ..attr \height height
-    @margin = top: 10 right: 20 bottom: 10 left: 60
+    @margin = top: 10 right: 20 bottom: 10 left: 0
     @width = width - @margin.right - @margin.left
     @height = height - @margin.top - @margin.bottom
     @drawing = @svg.append \g

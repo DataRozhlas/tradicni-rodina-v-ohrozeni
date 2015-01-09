@@ -13,6 +13,7 @@ externalStyles =
   ...
 
 externalData =
+  "style": "#__dirname/www/screen.css"
   "stats": "#__dirname/data/stats.tsv"
   "dates": "#__dirname/data/dates.tsv"
 

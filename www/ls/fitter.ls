@@ -1,0 +1,2 @@
+ig.fit = ->
+  $ '#aside' .remove!
