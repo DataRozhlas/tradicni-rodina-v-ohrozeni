@@ -46,8 +46,8 @@ ig.processData = ->
       else
         null
       yearData['abortions-rate'] = value: abortionsRate
-      teenPregRate = if yearData['pregnancies-teen'].value != null
-        yearData['pregnancies-teen'].value / teenFemales
+      teenPregRate = if yearData['pregnancies-teen'].value != null and yearData['abortions-teen'].value != null
+        (yearData['pregnancies-teen'].value + yearData['abortions-teen'].value) / teenFemales
       else
         null
       yearData['pregnancies-teen-rate'] = value: teenPregRate
