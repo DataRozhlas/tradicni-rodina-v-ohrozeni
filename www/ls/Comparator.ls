@@ -37,18 +37,19 @@ class Metric
   (@id, @name, @unit = '') ->
 metricsHuman =
   "abortions-total"         : new Metric "abortions-total" "Potraty"
+  "abortions-rate"         : new Metric "abortions-rate" "Potraty" "Podíl potratů k počtu těhotenství"
   "abortions-teen"          : new Metric "abortions-teen" "Potraty náctiletých"
-  "births-outside-marriage" : new Metric "births-outside-marriage" "Narozené děti mimo manželství" "Podíl dětí narozených mimo manželství"
+  "births-outside-marriage" : new Metric "births-outside-marriage" "Děti narozené mimo manželství" "Podíl dětí narozených mimo manželství"
   "fertility-rate"          : new Metric "fertility-rate" "Porodnost" "Narozených dětí na 1000 obyvatel"
   "age-at-first-child"      : new Metric "age-at-first-child" "Věk matky při narození prvního dítěte"
   "pregnancies-total"       : new Metric "pregnancies-total" "Těhotenství"
-  "pregnancies-teen"        : new Metric "pregnancies-teen" "Těhotenství náctiletých"
+  "pregnancies-teen-rate"   : new Metric "pregnancies-teen-rate" "Těhotenství náctiletých", "Těhotenství dívek mezi 10 a 19 lety na 1000 dívek v populaci"
   "divorce-rate"            : new Metric "divorce-rate" "Rozvodovost" "Rozvodů na 1000 obyvatel"
   "marriage-rate"           : new Metric "marriage-rate" "Sňatečnost" "Sňatků na 1000 obyvatel"
   "hiv-rate"                : new Metric "hiv-rate" "Úmrtí na HIV"
 
 class ig.Comparator
-  startYear: 1990
+  startYear: 1982
   endYear: 2012
   terminatorRadius: 4
   (@parentElement, data) ->
@@ -112,7 +113,7 @@ class ig.Comparator
       @data.slice!
     for {years}:country in data
       country.comparatorYears = country.years.filter ~>
-        it.year >= @startYear and it[metric].value isnt null
+        it.year >= @startYear and it[metric].value isnt null and not isNaN it[metric].value and isFinite it[metric].value
       for year in country.comparatorYears
         year.comparatorOffset = 0
         year.comparatorRate = year[metric].value
@@ -120,7 +121,7 @@ class ig.Comparator
           year.comparatorRate /= (country.firstYears.civil || country.firstYears.marriage)[metric].value
         values.push year
       country.comparatorLastYear = country.comparatorYears[*-1]
-
+    data .= filter (.comparatorLastYear)
     @yScale.domain d3.extent values.map (.comparatorRate)
     for country in data
       country.comparatorLastY = @yScale country.comparatorLastYear.comparatorRate
@@ -254,7 +255,7 @@ class ig.Comparator
       ..append \span
         ..attr \class "subheader subheader1"
         ..html "<b><span class='unit'></span> v Evropě mezi roky 1990 a 2012.</b><br>Zobrazit "
-        ..selectAll \span.link .data <[divorce-rate births-outside-marriage fertility-rate marriage-rate]> .enter!append \span
+        ..selectAll \span.link .data <[divorce-rate marriage-rate fertility-rate births-outside-marriage pregnancies-teen-rate abortions-rate]> .enter!append \span
           ..attr \class \link
           ..append \a
             ..attr \href \#

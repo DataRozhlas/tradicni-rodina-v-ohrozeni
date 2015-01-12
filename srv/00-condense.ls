@@ -19,7 +19,24 @@ file_to_metric =
 # files.length = 1
 fields = {}
 years = {}
-spaceRegex = new RegExp " " 'g'
+spaceRegex = new RegExp "[ ,]" 'g'
+
+(err, data) <~ fs.readFile "#__dirname/../data/migr_pop1ctz_1_Data.csv"
+(err, output) <~ csv data, {}
+output.shift!
+countries_teens = {}
+for [year, country,  _, age, _, value] in output
+  value = if value == ":"
+     null
+  else
+    parseFloat value.replace spaceRegex, ''
+  countries_teens[country] ?= {pedo: 0, nopedo: 0}
+  if value
+    if age == 'From 15 to 19 years'
+      countries_teens[country].nopedo = value
+    else
+      countries_teens[country].pedo = value
+
 <~ async.eachSeries files, (file, cb) ->
   (err, data) <~ fs.readFile "#dir/#file"
   (err, output) <~ csv data, {}
@@ -61,7 +78,7 @@ lines = for country of countries
           countries[country]['abortions-Less than 15 years']?[year].1
       else if field == 'pregnancies-Teen'
         o =
-          (countries[country]['pregnancies-From 10 to 14 years']?[year].0 || 0) + (countries[country]['pregnancies-From 15 to 19 years']?[year].0 || 0)
+          (countries[country]['pregnancies-From 10 to 14 years']?[year].0 || '') + (countries[country]['pregnancies-From 15 to 19 years']?[year].0 || '')
           countries[country]['pregnancies-From 10 to 14 years']?[year].1
       else
         (countries[country]?[field]?[year]) || ['']
@@ -71,9 +88,10 @@ lines = for country of countries
       else
         value.0
     values.join valueJoin
+  cells.unshift if countries_teens[country] then that.pedo + that.nopedo else 0
   cells.unshift country
   cells.join "\t"
-lines.unshift (['country'] ++ [1960 to 2012]).join "\t"
+lines.unshift (['country' 'teen-females'] ++ [1960 to 2012]).join "\t"
 csv = lines.join "\n"
 fs.writeFile "#__dirname/../data/stats.tsv", csv
 

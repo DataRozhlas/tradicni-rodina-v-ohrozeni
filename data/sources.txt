@@ -18,3 +18,6 @@ http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=demo_nind&lang=en
 
 Timeline
 http://en.wikipedia.org/wiki/Timeline_of_same-sex_marriage#1989
+
+Populace podle veku a pohlavi
+http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=migr_pop1ctz&lang=en

@@ -27,7 +27,8 @@ ig.processData = ->
     "hiv-rate"
 
   countries = for line in lines
-    [countryName, ...years] = line.split "\t"
+    [countryName, teenFemales, ...years] = line.split "\t"
+    teenFemales = parseInt teenFemales, 10
     id = countryName
     years .= map (d, i) ->
       year = allYears[i]
@@ -40,6 +41,16 @@ ig.processData = ->
         else
           null
         yearData[metric] = {value, footnotes}
+      abortionsRate = if yearData['abortions-total'].value != null and yearData['pregnancies-total'].value != null
+        yearData['abortions-total'].value / (yearData['pregnancies-total'].value + yearData['abortions-total'].value)
+      else
+        null
+      yearData['abortions-rate'] = value: abortionsRate
+      teenPregRate = if yearData['pregnancies-teen'].value != null
+        yearData['pregnancies-teen'].value / teenFemales
+      else
+        null
+      yearData['pregnancies-teen-rate'] = value: teenPregRate
       yearData
     country = new Country countryName, dates[countryName], years
   countries
