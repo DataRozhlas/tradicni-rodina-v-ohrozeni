@@ -130,7 +130,6 @@ class ig.Comparator
       | a.isSlovakia => 1
       | b.isSlovakia => -1
       | otherwise => 0
-    console.log data.map (.name)
     for country, index in data
       continue unless index
       lastCountry = data[index - 1]
