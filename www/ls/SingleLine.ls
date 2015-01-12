@@ -2,7 +2,10 @@ class ig.SingleLine
   (@parentElement, @country, @metric) ->
     width = 1000
     height = 240
-    @margin = top: 60 right: 50 bottom: 60 left: 25
+    @margin = top: 60 right: 60 bottom: 60 left: 25
+    if @country.name == "Greece"
+      height = 140
+      @margin.top = 10
     @width = width - @margin.right - @margin.left
     @height = height - @margin.top - @margin.bottom
     @svg = @parentElement.append \svg
@@ -35,6 +38,14 @@ class ig.SingleLine
       ..attr \y @margin.top + 4 + @yScale dataline.[*-1].value
     if @country.name == "Czech Republic"
       @drawCzech!
+    else
+      @drawGreece!
+
+  drawGreece: ->
+    @parentElement.append \h3
+      ..html "Sňatků na 1000 obyvatel v Řecku mezi roky 1985 a 2012"
+    for i in [28 to 48 by 4]
+      @drawGreekLineAt @country.years[i], @country.years[i].year
 
   drawCzech: ->
     @drawLineAt @country.years[30], "1990: Konec novomanželských půjček"
@@ -60,6 +71,23 @@ class ig.SingleLine
     if text == "2006: Uzákoněno registrované partnerství"
       y += 10
       textY += 85
+    @svg.append \line
+      ..attr \x1 x
+      ..attr \x2 x
+      ..attr \y1 textY
+      ..attr \y2 y - 5
+    @svg.append \text
+      ..text text
+      ..attr \x x + 5
+      ..attr \y textY + textD
+      ..attr \text-anchor \start
+
+  drawGreekLineAt: (year, text) ->
+    x = @margin.left + @xScale year.year
+    y = @margin.top + @yScale year[@metric].value
+    textY = @margin.top + @height + 20
+    textD = 5
+    y += 10
     @svg.append \line
       ..attr \x1 x
       ..attr \x2 x
