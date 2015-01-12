@@ -121,7 +121,7 @@ class ig.Comparator
           year.comparatorRate /= (country.firstYears.civil || country.firstYears.marriage)[metric].value
         values.push year
       country.comparatorLastYear = country.comparatorYears[*-1]
-    data .= filter (.comparatorLastYear)
+    data .= filter (.comparatorYears.length > 1)
     @yScale.domain d3.extent values.map (.comparatorRate)
     for country in data
       country.comparatorLastY = @yScale country.comparatorLastYear.comparatorRate
@@ -160,27 +160,44 @@ class ig.Comparator
       .attr \y1 zeryY
       .attr \y2 zeryY
 
-    @paths = @pathsG.selectAll \g.country .data data
+    @paths = @pathsG.selectAll \g.country .data data, (.name)
       ..enter!
         ..append \g
           ..attr \class -> "country" + if it.isSlovakia then " slovakia" else ""
           ..append \path
             ..attr \class \none
-            ..datum ({comparatorYears}:country) ~>
-              comparatorYears.filter -> it.year <= (Math.min country.dates.civil, country.dates.marriage)
+            ..attr \data-type \none
           ..append \path
             ..attr \class \civil
-            ..datum ({comparatorYears}:country) ~>
-              comparatorYears.filter -> country.dates.civil <= it.year <= country.dates.marriage
+            ..attr \data-type \civil
           ..append \path
             ..attr \class \marriage
-            ..datum ({comparatorYears}:country) ~>
-              comparatorYears.filter -> country.dates.marriage <= it.year
+            ..attr \data-type \marriage
           ..attr \data-tooltip ~> "#{it.name}"
+          ..attr \opacity 0
+          ..transition!
+            ..duration 800
+            ..attr \opacity 1
+      ..exit!
+        ..transition!
+          ..duration 800
+          ..attr \opacity 0
+          ..remove!
       ..selectAll \path
-        ..attr \d line
+        ..transition!
+          ..duration 800
+          ..attr \d ({comparatorYears}:country) ->
+            type = @getAttribute \data-type
+            years = switch type
+              | \none
+                comparatorYears.filter -> it.year <= (Math.min country.dates.civil, country.dates.marriage)
+              | \civil
+                comparatorYears.filter -> country.dates.civil <= it.year <= country.dates.marriage
+              | otherwise
+                comparatorYears.filter -> country.dates.marriage <= it.year
+            line years
 
-    @terminators = @terminatorsG.selectAll \circle .data data
+    @terminators = @terminatorsG.selectAll \circle .data data, (.name)
       ..enter!
         ..append \circle
           ..attr \r @terminatorRadius
@@ -194,9 +211,17 @@ class ig.Comparator
                 "slovakia"
               else
                 ""
-      ..attr \cx ~>
-        it.comparatorLastYear.comparatorOffset * (@terminatorRadius + 0.5) + @xScale it.comparatorLastYear.year
-      ..attr \cy ~> @yScale it.comparatorLastYear.comparatorRate
+          ..attr \opacity 0
+      ..exit!
+        ..transition 800
+        ..attr \opacity 0
+        ..remove!
+      ..transition!
+        ..duration 800
+        ..attr \opacity 1
+        ..attr \cx ~>
+          it.comparatorLastYear.comparatorOffset * (@terminatorRadius + 0.5) + @xScale it.comparatorLastYear.year
+        ..attr \cy ~> @yScale it.comparatorLastYear.comparatorRate
 
     @drawVoronoi values
     # @displayGraphTip data.4.years[*-1]
