@@ -76,8 +76,8 @@ class ig.Comparator
       ..attr \class \zero-line
       ..attr \x1 -20
       ..attr \x2 @width + 10
-      ..attr \y1 10
-      ..attr \y2 10
+      ..attr \y1 height + 20
+      ..attr \y2 height + 20
     @pathsG = @drawing.append \g
       ..attr \class \paths
     @terminatorsG = @drawing.append \g
@@ -157,6 +157,8 @@ class ig.Comparator
     else
       @height + 20
     @zeroLine
+      .transition!
+      .duration 800
       .attr \y1 zeryY
       .attr \y2 zeryY
 
