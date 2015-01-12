@@ -67,7 +67,7 @@ class ig.Comparator
       ..attr \class \voronoi
       ..attr \width width
       ..attr \height height
-    @margin = top: 10 right: 20 bottom: 10 left: 0
+    @margin = top: 10 right: 50 bottom: 10 left: 0
     @width = width - @margin.right - @margin.left
     @height = height - @margin.top - @margin.bottom
     @drawing = @svg.append \g
@@ -92,7 +92,7 @@ class ig.Comparator
     @data = data.filter -> sensibleCountries[it.name]
 
     @voronoi = d3.geom.voronoi!
-      ..x ~> @margin.left + it.comparatorOffset * (@terminatorRadius + 0.5) + @xScale it.year
+      ..x ~> @margin.left + it.comparatorOffset * (2 * @terminatorRadius + 1.5) + @xScale it.year
       ..y ~> @margin.top + @yScale it.comparatorRate
       ..clipExtent [[0,0], [width, height]]
     @graphTip = new ig.GraphTip @
@@ -130,26 +130,25 @@ class ig.Comparator
       | a.isSlovakia => 1
       | b.isSlovakia => -1
       | otherwise => 0
+    console.log data.map (.name)
     for country, index in data
       continue unless index
       lastCountry = data[index - 1]
       if 2 * @terminatorRadius > Math.abs country.comparatorLastY - lastCountry.comparatorLastY
         currentIndex = index
-        offset = 0
-        while data[currentIndex - 1] and 2 * @terminatorRadius > Math.abs data[currentIndex].comparatorLastY - data[currentIndex - 1].comparatorLastY
-          if not data[currentIndex - 1].comparatorLastYear.comparatorOffset
-            data[currentIndex - 1].comparatorLastYear.comparatorOffset = -1
+        offsets = while data[currentIndex - 1] and 2 * @terminatorRadius > Math.abs country.comparatorLastY - data[currentIndex - 1].comparatorLastY
           --currentIndex
-          ++offset
-        country.comparatorLastYear.comparatorOffset = if offset == 1
-          1
-        else
-          dir = if offset % 2 then 1 else -1
-          o = Math.ceil (offset + 1) / 2
-          (o + 1) * dir
+          if data[currentIndex].comparatorLastYear.year != country.comparatorLastYear.year
+            continue
+          data[currentIndex].comparatorLastYear.comparatorOffset
+        offsets.sort (a, b) -> a - b
+        offset = 0
+        while offsets[offset] == offset
+          offset++
+        country.comparatorLastYear.comparatorOffset = offset
 
     line = d3.svg.line!
-      ..x ~> it.comparatorOffset * (@terminatorRadius + 0.5) + @xScale it.year
+      ..x ~> it.comparatorOffset * (2 * @terminatorRadius + 1.5) + @xScale it.year
       ..y ~> @yScale it.comparatorRate
       ..interpolate \cardinal
     zeryY = if @drawChangeFromFirstCivil
@@ -222,7 +221,7 @@ class ig.Comparator
         ..duration 800
         ..attr \opacity 1
         ..attr \cx ~>
-          it.comparatorLastYear.comparatorOffset * (@terminatorRadius + 0.5) + @xScale it.comparatorLastYear.year
+          it.comparatorLastYear.comparatorOffset * (2 * @terminatorRadius + 1.5) + @xScale it.comparatorLastYear.year
         ..attr \cy ~> @yScale it.comparatorLastYear.comparatorRate
 
     @drawVoronoi values
@@ -252,6 +251,7 @@ class ig.Comparator
     else
       "V tomto roce zde nebyla žádná forma stejnopohlavních svazků"
     text += "<p class='rights'>#{rights}</p>"
+    text += point.comparatorOffset
     @graphTip.display point, text
 
   highlightCountry: (country) ->

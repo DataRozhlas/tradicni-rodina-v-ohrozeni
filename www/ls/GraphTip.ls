@@ -12,7 +12,7 @@ class ig.GraphTip
     @content.html content
     width = @element.node!offsetWidth
     height = @element.node!offsetHeight
-    xPosition = @graph.margin.left + point.comparatorOffset * (@graph.terminatorRadius + 0.5) + @graph.xScale point.year
+    xPosition = @graph.margin.left + point.comparatorOffset * (2 * @graph.terminatorRadius + 1.5) + @graph.xScale point.year
     yPosition = @graph.margin.top + @graph.yScale point.comparatorRate
     left = xPosition - width / 2
     offset = 0
