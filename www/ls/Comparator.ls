@@ -163,7 +163,12 @@ class ig.Comparator
     @paths = @pathsG.selectAll \g.country .data data, (.name)
       ..enter!
         ..append \g
-          ..attr \class -> "country" + if it.isSlovakia then " slovakia" else ""
+          ..attr \class ->
+              suff =
+                | it.isSlovakia => " slovakia"
+                | it.isCzech => " czech"
+                | _ => ""
+              "country" + suff
           ..append \path
             ..attr \class \none
             ..attr \data-type \none
@@ -205,9 +210,11 @@ class ig.Comparator
               year = it.comparatorYears[*-1].year
               if year > it.dates.marriage
                 "marriage"
+              else if it.isCzech
+                "czech"
               else if year > it.dates.civil
                 "civil"
-              else if it.name == "Slovakia"
+              else if it.isSlovakia
                 "slovakia"
               else
                 ""

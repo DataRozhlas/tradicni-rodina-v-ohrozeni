@@ -7,6 +7,8 @@ class Country
       @firstYears[type] = @years[index]
     if @name == \Slovakia
       @isSlovakia = yes
+    else if @name == "Czech Republic"
+      @isCzech = yes
     for year in @years
       year.country = @
 
