@@ -1,8 +1,7 @@
 &.small-multiples
   position relative
   svg
-    margin-top 60px
-    margin-left 60px
+    margin-top 10px
     rect
       fill #fb
     path
@@ -33,11 +32,11 @@
         shape-rendering crispEdges
         stroke black
       rect
-        fill rgba(255,255,255,0.5)
+        fill rgba(255,255,255,0.6)
       .year
         fill #4
     g.country:not(:first-of-type):not(:last-of-type)
-      .mouse-line
+      .mouse-line .year
         display none
 
 
@@ -63,3 +62,21 @@
     g.country g.graph:nth-of-type(5n+5) rect
       fill hsl(hue(prideViolet), 9%, 98%)
 
+  .header
+    float left
+    padding-left 190px
+    width 1000px
+    text-align center
+    div
+      color #4
+      margin-left 10px
+      float left
+      width 125px
+      .name
+        display block
+        height 40px
+      .unit
+        margin-top 10px
+        display block
+        float left
+        font-size 12px

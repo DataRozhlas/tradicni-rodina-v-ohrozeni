@@ -5,17 +5,36 @@ firstCountries =
   "Great Britain"
   "Netherlands"
   "Spain"
-
+class Metric
+  (@id, @name, @unit = '') ->
+metricsHuman =
+  "abortions-rate"          : new Metric "abortions-rate" "Potraty" "Podíl potratů k počtu těhotenství"
+  "births-outside-marriage" : new Metric "births-outside-marriage" "Děti narozené mimo manželství" "Podíl dětí narozených mimo manželství"
+  "fertility-rate"          : new Metric "fertility-rate" "Porodnost" "Narozených dětí na 1000 obyvatel"
+  "pregnancies-teen-rate"   : new Metric "pregnancies-teen-rate" "Těhotenství náctiletých", "Těhotenství dívek mezi 10 a 19 lety na 1000 dívek v populaci"
+  "divorce-rate"            : new Metric "divorce-rate" "Rozvodovost" "Rozvodů na 1000 obyvatel"
+  "marriage-rate"           : new Metric "marriage-rate" "Sňatečnost" "Sňatků na 1000 obyvatel"
 class ig.SmallMultiples
-  lineHeight: 120
+  lineHeight: 100
   textWidth: 200
-  graphWidth: 149
+  graphWidth: 125
   startYear: 1982
   endYear: 2012
   (@parentElement, @countries) ->
-    @metrics = metrics = <[marriage-rate divorce-rate fertility-rate pregnancies-teen-rate abortions-rate]>
+    @metrics = metrics = <[marriage-rate divorce-rate fertility-rate births-outside-marriage pregnancies-teen-rate abortions-rate]>
+    @parentElement.append \div
+      ..attr \class \header
+      ..selectAll \div .data @metrics .enter!append \div
+        ..html -> metricsHuman[it].name
     @svg = @parentElement.append \svg
       ..attr \width 1000
+    @parentElement.append \div
+      ..attr \class \header
+      ..selectAll \div .data @metrics .enter!append \div
+        ..append \span .attr \class \name
+          ..html -> metricsHuman[it].name
+        ..append \span .attr \class \unit
+          ..html -> metricsHuman[it].unit
     @elementOffset = ig.utils.offset @svg.node!
     @displayedCountries = displayedCountries = @countries.filter -> -1 != firstCountries.indexOf it.id
     displayedCountries.sort (a, b) -> (firstCountries.indexOf a.id) - (firstCountries.indexOf b.id)
@@ -107,6 +126,10 @@ class ig.SmallMultiples
             ..attr \x2 0
             ..attr \y1 0
             ..attr \y2 @lineHeight
+          ..append \text
+            ..attr \class \year
+            ..attr \text-anchor \middle
+            ..attr \y (d, i) ~> if i then @lineHeight + 17 else -7
           ..append \rect
             ..attr \x -30
             ..attr \y 0
@@ -115,10 +138,6 @@ class ig.SmallMultiples
           ..append \text
             ..attr \text-anchor \middle
             ..attr \class \value
-          ..append \text
-            ..attr \class \year
-            ..attr \text-anchor \middle
-            ..attr \y (d, i) ~> if i then @lineHeight + 17 else -7
       ..attr \transform (d, i) ~> "translate(0, #{20 + i * (@lineHeight + 10)})"
       ..selectAll "g.graph path"
         ..attr \d (metric, metricIndex, countryIndex) ~>
