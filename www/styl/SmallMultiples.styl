@@ -1,6 +1,7 @@
 &.small-multiples
   position relative
   padding-bottom 40px
+  margin-top 40px
   float left
   svg
     margin-top 10px
@@ -37,10 +38,9 @@
         fill rgba(255,255,255,0.6)
       .year
         fill #4
-    g.country:not(:first-of-type):not(:last-of-type)
+    g.country:not(:first-child):not(.last)
       .mouse-line .year
         display none
-
 
     g.country:nth-of-type(5n+1) path
       stroke hsl(hue(prideRed), 100%, 17%)

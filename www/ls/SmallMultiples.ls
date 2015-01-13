@@ -177,6 +177,7 @@ class ig.SmallMultiples
                 null
             .filter -> it isnt null
           line coords
+      ..classed \last (d, i) ~> i + 1 == @displayedCountries.length
       ..selectAll "g.graph line"
         ..attr \y1 0
         ..attr \y2 @lineHeight
