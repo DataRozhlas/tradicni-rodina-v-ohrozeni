@@ -1,6 +1,8 @@
 &.small-multiples
   position relative
   svg
+    margin-top 60px
+    margin-left 60px
     rect
       fill #fb
     path
@@ -15,7 +17,7 @@
         fill darken(prideRed, 10%)
       &.marriage-ban
         fill #2
-    line
+    line.civil, line.marriage, line.marriage-ban
       stroke-width 1
       shape-rendering crispEdges
       stroke-dasharray 4, 6
@@ -25,6 +27,18 @@
         stroke prideRed
       &.marriage-ban
         stroke #2
+
+    .mouse-line
+      line
+        shape-rendering crispEdges
+        stroke black
+      rect
+        fill rgba(255,255,255,0.5)
+      .year
+        fill #4
+    g.country:not(:first-of-type):not(:last-of-type)
+      .mouse-line
+        display none
 
 
     g.country:nth-of-type(5n+1) path
