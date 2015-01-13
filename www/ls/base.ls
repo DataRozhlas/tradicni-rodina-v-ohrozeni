@@ -16,7 +16,6 @@ init = ->
   if ig.containers.multiples
     container = d3.select that
     new ig.SmallMultiples container, data
-  new Tooltip!watchElements!
 
 
 if d3?

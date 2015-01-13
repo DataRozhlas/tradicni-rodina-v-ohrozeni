@@ -5,11 +5,11 @@ option 'name' 'Name to give to the project' 'NAME'
 option 'currentfile' 'Latest file that triggered the save' 'FILE'
 
 externalScripts =
-  \https://samizdat.cz/tools/tooltip/v1.1.4.d3.js
+  # \https://samizdat.cz/tools/tooltip/v1.1.4.d3.js
   ...
 
 externalStyles =
-  \https://samizdat.cz/tools/tooltip/v1.1.4.css
+  # \https://samizdat.cz/tools/tooltip/v1.1.4.css
   ...
 
 externalData =
