@@ -11,6 +11,7 @@ class Country
       @isCzech = yes
     for year in @years
       year.country = @
+    @id = @name
 
 ig.processData = ->
   dates = processDates!
