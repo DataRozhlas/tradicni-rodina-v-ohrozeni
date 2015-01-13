@@ -13,7 +13,7 @@ class ig.SmallMultiples
   startYear: 1982
   endYear: 2012
   (@parentElement, @countries) ->
-    metrics = <[divorce-rate marriage-rate fertility-rate pregnancies-teen-rate abortions-rate]>
+    metrics = <[marriage-rate divorce-rate fertility-rate pregnancies-teen-rate abortions-rate]>
     @svg = @parentElement.append \svg
       ..attr \width 1000
     toDisplay = @countries.filter -> -1 != firstCountries.indexOf it.id
