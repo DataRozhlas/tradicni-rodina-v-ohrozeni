@@ -21,7 +21,7 @@ class ig.SmallMultiples
   startYear: 1982
   endYear: 2012
   (@parentElement, @countries) ->
-    @metrics = metrics = <[marriage-rate divorce-rate fertility-rate births-outside-marriage pregnancies-teen-rate abortions-rate]>
+    @metrics = <[marriage-rate divorce-rate fertility-rate births-outside-marriage pregnancies-teen-rate abortions-rate]>
     @parentElement.append \div
       ..attr \class \header
       ..selectAll \div .data @metrics .enter!append \div
@@ -35,9 +35,34 @@ class ig.SmallMultiples
           ..html -> metricsHuman[it].name
         ..append \span .attr \class \unit
           ..html -> metricsHuman[it].unit
+    countrySelector = @parentElement.append \div
+      ..attr \class \country-selector
+      ..append \div
+        ..attr \class \header
+        ..html "Vyberte země k porovnání:"
+      ..append \div
+        ..attr \class \countries
+        ..selectAll \a .data @countries .enter!append \a
+          ..attr \class \country
+          ..attr \href \#
+          ..html -> it.name
+          ..on \click ~>
+            d3.event.preventDefault!
+            index = firstCountries.indexOf it.id
+            if index == -1
+              firstCountries.push it.id
+            else
+              firstCountries.splice index, 1
+            @redraw!
+    @countriesElements = countrySelector.selectAll "a.country"
     @elementOffset = ig.utils.offset @svg.node!
+    @redraw!
+
+  redraw: ->
+    metrics = @metrics
     @displayedCountries = displayedCountries = @countries.filter -> -1 != firstCountries.indexOf it.id
     displayedCountries.sort (a, b) -> (firstCountries.indexOf a.id) - (firstCountries.indexOf b.id)
+    @countriesElements.classed \active -> -1 != firstCountries.indexOf it.id
 
     line = d3.svg.line!
       ..x (.x)
@@ -138,6 +163,7 @@ class ig.SmallMultiples
           ..append \text
             ..attr \text-anchor \middle
             ..attr \class \value
+      ..exit!remove!
       ..attr \transform (d, i) ~> "translate(0, #{20 + i * (@lineHeight + 10)})"
       ..selectAll "g.graph path"
         ..attr \d (metric, metricIndex, countryIndex) ~>

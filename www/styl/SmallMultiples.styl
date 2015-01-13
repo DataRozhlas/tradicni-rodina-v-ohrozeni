@@ -62,7 +62,7 @@
     g.country g.graph:nth-of-type(5n+5) rect
       fill hsl(hue(prideViolet), 9%, 98%)
 
-  .header
+  > .header
     float left
     padding-left 190px
     width 1000px
@@ -80,3 +80,26 @@
         display block
         float left
         font-size 12px
+  .country-selector
+    float left
+    width 1000px
+    margin-top 15px
+    > div
+      float left
+    .header
+      font-weight bold
+      width 190px
+      float left
+    .countries
+      float left
+      width 810px
+      a.country
+        color #4 !important
+        display block
+        float left
+        margin 0px 5px
+        &:hover
+          text-decoration none
+        &.active
+          color prideOrange !important
+
