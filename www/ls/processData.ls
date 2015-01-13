@@ -1,6 +1,6 @@
 allYears = [1960 to 2012]
 class Country
-  (@name, @dates, @years) ->
+  (@id, @name, @dates, @years) ->
     @firstYears = {}
     for type, year of @dates
       index = allYears.indexOf year
@@ -11,7 +11,6 @@ class Country
       @isCzech = yes
     for year in @years
       year.country = @
-    @id = @name
 
 ig.processData = ->
   dates = processDates!
@@ -30,9 +29,8 @@ ig.processData = ->
     "hiv-rate"
 
   countries = for line in lines
-    [countryName, teenFemales, ...years] = line.split "\t"
+    [id, countryName, teenFemales, ...years] = line.split "\t"
     teenFemales = parseInt teenFemales, 10
-    id = countryName
     years .= map (d, i) ->
       year = allYears[i]
       yearData = {year}
@@ -55,7 +53,7 @@ ig.processData = ->
         null
       yearData['pregnancies-teen-rate'] = value: teenPregRate
       yearData
-    country = new Country countryName, dates[countryName], years
+    country = new Country id, countryName, dates[id], years
   countries
 
 processDates = ->

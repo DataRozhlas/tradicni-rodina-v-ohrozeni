@@ -12,7 +12,7 @@ init = ->
     singleLineCz = new ig.SingleLine container, data[2], 'marriage-rate'
   if ig.containers.greece
     container = d3.select that
-    singleLineGreece = new ig.SingleLine container, data[6], 'marriage-rate'
+    singleLineGreece = new ig.SingleLine container, data[5], 'marriage-rate'
   if ig.containers.multiples
     container = d3.select that
     new ig.SmallMultiples container, data

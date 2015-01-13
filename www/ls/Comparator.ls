@@ -89,7 +89,7 @@ class ig.Comparator
 
     @yScale = d3.scale.linear!
       ..range [@height, 0]
-    @data = data.filter -> sensibleCountries[it.name]
+    @data = data.filter -> sensibleCountries[it.id]
 
     @voronoi = d3.geom.voronoi!
       ..x ~> @margin.left + it.comparatorOffset * (2 * @terminatorRadius + 1.5) + @xScale it.year
@@ -160,7 +160,7 @@ class ig.Comparator
       .attr \y1 zeryY
       .attr \y2 zeryY
 
-    @paths = @pathsG.selectAll \g.country .data data, (.name)
+    @paths = @pathsG.selectAll \g.country .data data, (.id)
       ..enter!
         ..append \g
           ..attr \class ->
@@ -178,7 +178,6 @@ class ig.Comparator
           ..append \path
             ..attr \class \marriage
             ..attr \data-type \marriage
-          ..attr \data-tooltip ~> "#{it.name}"
           ..attr \opacity 0
           ..transition!
             ..duration 800
@@ -202,7 +201,7 @@ class ig.Comparator
                 comparatorYears.filter -> country.dates.marriage <= it.year
             line years
 
-    @terminators = @terminatorsG.selectAll \circle .data data, (.name)
+    @terminators = @terminatorsG.selectAll \circle .data data, (.id)
       ..enter!
         ..append \circle
           ..attr \r @terminatorRadius
@@ -257,7 +256,6 @@ class ig.Comparator
     else
       "V tomto roce zde nebyla žádná forma stejnopohlavních svazků"
     text += "<p class='rights'>#{rights}</p>"
-    text += point.comparatorOffset
     @graphTip.display point, text
 
   highlightCountry: (country) ->

@@ -3,7 +3,7 @@ class ig.SingleLine
     width = 1000
     height = 240
     @margin = top: 60 right: 60 bottom: 60 left: 25
-    if @country.name == "Greece"
+    if @country.id == "Greece"
       height = 140
       @margin.top = 10
     @width = width - @margin.right - @margin.left
@@ -36,7 +36,7 @@ class ig.SingleLine
       ..text ig.utils.formatNumber dataline.[*-1].value, 1
       ..attr \x @margin.left + 7 + @xScale dataline.[*-1].year
       ..attr \y @margin.top + 4 + @yScale dataline.[*-1].value
-    if @country.name == "Czech Republic"
+    if @country.id == "Czech Republic"
       @drawCzech!
     else
       @drawGreece!
