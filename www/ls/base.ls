@@ -16,6 +16,7 @@ init = ->
   if ig.containers.multiples
     container = d3.select that
     new ig.SmallMultiples container, data
+  $ 'body' .prepend "<div class='hero'><div class='overlay'></div><div class='fadeout'></div></div>"
 
 
 if d3?

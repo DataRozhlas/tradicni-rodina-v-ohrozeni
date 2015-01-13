@@ -3,6 +3,7 @@
 #article
   width 950px
   font-family 'Roboto', arial, helvetica,sans-serif
+  background transparent !important
   .date
   .image
     display none
@@ -13,6 +14,8 @@
     line-height 1.8em
     margin-bottom 40px !important
     text-align center
+    color white
+    text-shadow 0px 0px 10px #0
   > p
     line-height 1.9em
     font-size 16px
@@ -21,12 +24,37 @@
     text-align center
     line-height 2.2em
     font-size 18px
+    color white
+    text-shadow 0px 0px 10px #0
   > h1
   > h2
   > h3
   > p
     margin-left 170px !important
     margin-right 170px !important
+#wrapper-inner
+  background transparent !important
+div.hero
+  position absolute
+  top 152px
+  bottom -60px
+  width 100%
+  background transparent url('./img/pflag.jpg') no-repeat center top
+  .overlay
+    background black
+    opacity 0.3
+    position absolute
+    top 0px
+    left 0px
+    bottom 0px
+    width 100%
+  .fadeout
+    position absolute
+    bottom 0px
+    left 0px
+    width 100%
+    height 40%
+    background linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
 .web-zpravy
   background white url('/tools/cro-parts/bg.png')  repeat-x !important
   #nav-sub
