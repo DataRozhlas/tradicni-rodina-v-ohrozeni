@@ -17,7 +17,7 @@ metricsHuman =
 class ig.SmallMultiples
   lineHeight: 100
   textWidth: 200
-  graphWidth: 125
+  graphWidth: 123
   startYear: 1982
   endYear: 2012
   (@parentElement, @countries) ->
@@ -163,8 +163,8 @@ class ig.SmallMultiples
     @mouseLineRect = @mouseLineG.select \rect
 
   onMouseMove: ->
-    x = d3.event.x - @elementOffset.top
-    y = d3.event.y - @elementOffset.left
+    x = d3.event.x - @elementOffset.left
+    y = d3.event.y - @elementOffset.top
     x -= @textWidth
     metricIndex = Math.floor x / (@graphWidth + 10)
     metric = @metrics[metricIndex]
