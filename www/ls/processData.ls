@@ -11,6 +11,8 @@ class Country
       @isCzech = yes
     for year in @years
       year.country = @
+    if @name == \Poland
+      console.log @
     @id = @name
 
 ig.processData = ->

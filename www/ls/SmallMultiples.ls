@@ -40,6 +40,15 @@ class ig.SmallMultiples
       d3.scale.linear!
         ..domain [minimum, maximum]
         ..range [@lineHeight, 0]
+    getLineX = (metric, metricIndex, countryIndex) ->
+      country = toDisplay[countryIndex]
+      switch @getAttribute \class
+        |\civil
+          if country.firstYears.civil then xScale that.year else -9999
+        |\marriage
+          if country.firstYears.marriage then xScale that.year else -9999
+        |\marriage-ban
+          if country.firstYears.marriageBan then xScale that.year else -9999
 
     @svg.attr \height toDisplay.length * (@lineHeight + 10)
     @countryG = @svg.selectAll \g.country .data toDisplay, (.id)
@@ -47,8 +56,35 @@ class ig.SmallMultiples
         ..attr \class \country
         ..append \text
           ..text ~> it.name
-          ..attr \x 20
+          ..attr \x 0
           ..attr \y 20
+        ..append \text
+          ..attr \class "first-year civil"
+          ..text ~>
+            if it.firstYears.civil?year
+              "Reg. partnerství: #that"
+            else
+              void
+          ..attr \x 0
+          ..attr \y 40
+        ..append \text
+          ..attr \class "first-year marriage"
+          ..text ~>
+            if it.firstYears.marriage?year
+              "Manželství: #that"
+            else
+              void
+          ..attr \x 0
+          ..attr \y ~> if it.firstYears.civil then 60 else 40
+        ..append \text
+          ..attr \class "first-year marriage-ban"
+          ..text ~>
+            if it.firstYears.marriageBan?year
+              "Úst. omezení manželství: #that"
+            else
+              void
+          ..attr \x 0
+          ..attr \y ~> if it.firstYears.civil then 60 else 40
         ..selectAll \g.graph .data metrics .enter!append \g
           ..attr \class \graph
           ..attr \transform (d, i) ~> "translate(#{@textWidth + i * (@graphWidth + 10)}, 0)"
@@ -57,6 +93,9 @@ class ig.SmallMultiples
             ..attr \y 0
             ..attr \width @graphWidth
             ..attr \height @lineHeight
+          ..append \line .attr \class \civil
+          ..append \line .attr \class \marriage
+          ..append \line .attr \class \marriage-ban
           ..append \path
       ..attr \transform (d, i) ~> "translate(0, #{i * (@lineHeight + 10)})"
       ..selectAll "g.graph path"
@@ -71,3 +110,9 @@ class ig.SmallMultiples
                 null
             .filter -> it isnt null
           line coords
+      ..selectAll "g.graph line"
+        ..attr \y1 0
+        ..attr \y2 @lineHeight
+        ..attr \x1 getLineX
+        ..attr \x2 getLineX
+

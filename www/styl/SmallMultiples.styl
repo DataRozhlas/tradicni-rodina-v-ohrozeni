@@ -6,6 +6,27 @@
     path
       fill none
       stroke-width 1
+    text.first-year
+      font-size 12px
+      fill #6
+      &.civil
+        fill darken(prideOrange, 10%)
+      &.marriage
+        fill darken(prideRed, 10%)
+      &.marriage-ban
+        fill #2
+    line
+      stroke-width 1
+      shape-rendering crispEdges
+      stroke-dasharray 4, 6
+      &.civil
+        stroke prideOrange
+      &.marriage
+        stroke prideRed
+      &.marriage-ban
+        stroke #2
+
+
     g.country:nth-of-type(5n+1) path
       stroke hsl(hue(prideRed), 100%, 17%)
     g.country:nth-of-type(5n+2) path
