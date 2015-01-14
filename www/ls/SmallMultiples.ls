@@ -55,7 +55,7 @@ class ig.SmallMultiples
               firstCountries.splice index, 1
             @redraw!
     @countriesElements = countrySelector.selectAll "a.country"
-    @elementOffset = ig.utils.offset @svg.node!
+    @elementOffset = ig.utils.offset @parentElement.node!
     @redraw!
 
   redraw: ->
@@ -190,15 +190,13 @@ class ig.SmallMultiples
     @mouseLineRect = @mouseLineG.select \rect
 
   onMouseMove: ->
-    x = d3.event.x - @elementOffset.left
-    y = d3.event.y - @elementOffset.top
+    x = d3.event.layerX
     x -= @textWidth
     metricIndex = Math.floor x / (@graphWidth + 10)
     metric = @metrics[metricIndex]
     return @hideTip! if not metric
     return @hideTip! if x < 0
     x %= (@graphWidth + 10)
-    y %= @lineHeight
     year = Math.round @xScale.invert x
     return @hideTip! if year > @endYear
     projX = @textWidth + metricIndex * (@graphWidth + 10) + @xScale year

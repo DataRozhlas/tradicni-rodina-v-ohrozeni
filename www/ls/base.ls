@@ -24,7 +24,7 @@ init = ->
         window.pageYOffset || document.documentElement.scrollTop
         offset
       (progress) -> window.scrollTo 0, interpolate progress
-
+  return if not $?
   $ 'body' .prepend "<div class='hero'><div class='overlay'></div></div>"
   $hero = $ '.hero'
   $hero.append "<span class='copy'>Image &copy; <a href='http://www.freeimages.com/profile/knorthern' target='_blank'>Kate Northern, freeimages.com</a></span>"
