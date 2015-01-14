@@ -27,8 +27,10 @@ init = ->
 
   $ 'body' .prepend "<div class='hero'><div class='overlay'></div></div>"
   $hero = $ '.hero'
-  $hero.append "<a href='#'>Pokračovat</a>"
-  $ '.hero a' .bind 'click touchstart' ->
+  $hero.append "<span class='copy'>Image &copy; <a href='http://www.freeimages.com/profile/knorthern' target='_blank'>Kate Northern, freeimages.com</a></span>"
+  $hero.append "<a href='#' class='scroll-btn'>Pokračovat</a>"
+  $ '.hero a.scroll-btn' .bind 'click touchstart' (evt) ->
+    evt.preventDefault!
     offset = $ ig.containers.comparator .offset!top
     offset -= 140
     d3.transition!

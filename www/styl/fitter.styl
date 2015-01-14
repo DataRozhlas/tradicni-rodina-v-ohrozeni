@@ -43,6 +43,7 @@
   width 100%
   height 600px
 div.hero
+  font-family 'Roboto', arial, helvetica,sans-serif
   position absolute
   top 152px
   bottom -80px
@@ -58,7 +59,18 @@ div.hero
     width 100%
     background linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(0,0,0,0.3) 25%);
     position absolute
-  a
+  span.copy
+    color #444
+    position absolute
+    bottom 85px
+    right 10px
+    z-index 2
+    a
+      color #444
+      text-decoration underline
+      &:hover
+        text-decoration none
+  a.scroll-btn
     z-index 2
     position absolute
     top 650px
@@ -68,7 +80,6 @@ div.hero
     color white
     font-weight 300
     font-size 18px
-    font-family 'Roboto', arial, helvetica,sans-serif
     text-shadow 0px 0px 10px #0
     &:hover
     &:active
@@ -93,14 +104,14 @@ div.hero
       box-shadow 0px 0px 5px #ffa
       border-radius 50%
   @media screen and (max-height: 820px)
-    a
+    a.scroll-btn
       top 600px
       text-shadow none
       color transparent
       &:before
         color white
   @media screen and (max-height: 761px)
-    a
+    a.scroll-btn
       display none
 .web-zpravy
   background white url('https://samizdat.cz/tools/cro-parts/bg.png')  repeat-x !important
