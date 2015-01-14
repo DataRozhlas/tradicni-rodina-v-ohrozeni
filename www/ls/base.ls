@@ -34,6 +34,9 @@ init = ->
     d3.transition!
       .duration 800
       .tween "scroll" scrollTween offset
+  filling = $ ".ig.filling"
+    ..css \height $hero.height!
+  $ window .bind \resize -> filling.css \height $hero.height!
 
 if d3?
   init!
