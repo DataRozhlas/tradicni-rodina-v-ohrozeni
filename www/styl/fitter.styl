@@ -37,26 +37,19 @@
 div.hero
   position absolute
   top 152px
-  bottom -60px
+  bottom -80px
   width 100%
   min-width 1000px
   background transparent url('./img/pflag.jpg') no-repeat center top
   background-size cover
   .overlay
-    background black
-    opacity 0.3
     position absolute
     top 0px
     left 0px
     bottom 0px
     width 100%
-  .fadeout
+    background linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(0,0,0,0.3) 35%);
     position absolute
-    bottom 0px
-    left 0px
-    width 100%
-    height 40%
-    background linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
 .web-zpravy
   background white url('/tools/cro-parts/bg.png')  repeat-x !important
   #nav-sub
