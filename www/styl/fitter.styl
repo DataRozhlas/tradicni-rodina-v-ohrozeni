@@ -48,8 +48,45 @@ div.hero
     left 0px
     bottom 0px
     width 100%
-    background linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(0,0,0,0.3) 35%);
+    background linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(0,0,0,0.3) 25%);
     position absolute
+  a
+    z-index 2
+    position absolute
+    top 650px
+    left 50%
+    transform translate(-50%, 0)
+    text-transform uppercase
+    color white
+    font-weight 300
+    font-size 18px
+    font-family 'Roboto', arial, helvetica,sans-serif
+    text-shadow 0px 0px 10px #0
+    &:hover
+    &:active
+      text-decoration none
+    &:hover:before
+        background rgba(255,255,255,0.2)
+    &:before
+      background rgba(255,255,255,0.05)
+      transition background 0.2s
+      content "›"
+      position absolute
+      top -80px
+      left 50%
+      transform translate(-50%, 0) rotate(90deg)
+      text-align center
+      line-height 50px
+      font-size 50px
+      width 60px
+      height 60px
+      border 1px solid white
+      font-weight 300
+      box-shadow 0px 0px 5px #ffa
+      border-radius 50%
+  @media screen and (max-height: 820px)
+    a
+      display none
 .web-zpravy
   background white url('/tools/cro-parts/bg.png')  repeat-x !important
   #nav-sub

@@ -16,8 +16,24 @@ init = ->
   if ig.containers.multiples
     container = d3.select that
     new ig.SmallMultiples container, data
-  $ 'body' .prepend "<div class='hero'><div class='overlay'></div></div>"
 
+
+  scrollTween = (offset) ->
+    ->
+      interpolate = d3.interpolateNumber do
+        window.pageYOffset || document.documentElement.scrollTop
+        offset
+      (progress) -> window.scrollTo 0, interpolate progress
+
+  $ 'body' .prepend "<div class='hero'><div class='overlay'></div></div>"
+  $hero = $ '.hero'
+  $hero.append "<a href='#'>Pokračovat</a>"
+  $ '.hero a' .bind 'click touchstart' ->
+    offset = $ ig.containers.comparator .offset!top
+    offset -= 140
+    d3.transition!
+      .duration 800
+      .tween "scroll" scrollTween offset
 
 if d3?
   init!
