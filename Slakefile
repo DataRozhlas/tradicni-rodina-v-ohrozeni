@@ -221,7 +221,7 @@ task \deploy ->
   <~ build-styles compression: yes
   <~ build-all-scripts
   <~ combine-scripts compression: yes
-  <~ inject-index!
+  # <~ inject-index!
   <~ gzip-files!
 
 task \build-styles ->
