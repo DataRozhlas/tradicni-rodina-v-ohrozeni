@@ -3,8 +3,14 @@ firstCountries =
   "Slovakia"
   "Poland"
   "Great Britain"
-  "Netherlands"
+  "Belgium"
+  "Denmark"
+  "Norway"
+firstCountries =
+  "Portugal"
+  "Greece"
   "Spain"
+  "Ireland"
 class Metric
   (@id, @name, @unit = '') ->
 metricsHuman =
@@ -21,7 +27,7 @@ class ig.SmallMultiples
   startYear: 1982
   endYear: 2012
   (@parentElement, @countries) ->
-    @metrics = <[marriage-rate divorce-rate fertility-rate births-outside-marriage pregnancies-teen-rate abortions-rate]>
+    @metrics = <[fertility-rate births-outside-marriage pregnancies-teen-rate abortions-rate marriage-rate divorce-rate]>
     @parentElement.append \div
       ..attr \class \header
       ..selectAll \div .data @metrics .enter!append \div

@@ -31,7 +31,8 @@ init = ->
   $hero.append "<a href='#' class='scroll-btn'>Pokračovat</a>"
   $ '.hero a.scroll-btn' .bind 'click touchstart' (evt) ->
     evt.preventDefault!
-    offset = $ ig.containers.comparator .offset!top
+    filling = $ ".ig.filling"
+    offset = filling.offset!top + filling.height!
     offset -= 140
     d3.transition!
       .duration 800
