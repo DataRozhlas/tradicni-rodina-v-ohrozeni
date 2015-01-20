@@ -16,6 +16,9 @@ http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=demo_ndivind&lang=en
 Manzelstvi - pocet sezdanych, prumerny vek prvniho manzelstvi
 http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=demo_nind&lang=en
 
+Single-parent households
+http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=ilc_lvps20&lang=en
+
 Timeline
 http://en.wikipedia.org/wiki/Timeline_of_same-sex_marriage#1989
 

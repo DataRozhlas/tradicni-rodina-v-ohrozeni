@@ -15,6 +15,7 @@ file_to_metric =
   'demo_ndivind_1_Data.csv'  : 'divorce'
   'demo_nind_1_Data.csv'     : 'marriage'
   'hlth_cd_asdr_1_Data.csv'  : 'hiv'
+  'ilc_lvps20_1_Data.csv'    : 'family'
 (err, files) <~ fs.readdir dir
 # files.length = 1
 fields = {}
@@ -68,18 +69,23 @@ outFields =
   'divorce-Crude divorce rate'
   'marriage-Crude marriage rate'
   'hiv-Human immunodeficiency virus [HIV] disease'
+  'family-incomplete'
 
 lines = for country of countries
   cells = for year in [1960 to 2012]
     values = for field in outFields
       value = if field == "abortions-Teen"
         o =
-          (countries[country]['abortions-Less than 15 years']?[year].0 || 0) + (countries[country]['abortions-From 15 to 19 years']?[year].0 || 0)
+          (countries[country]['abortions-Less than 15 years']?[year].0 || '') + (countries[country]['abortions-From 15 to 19 years']?[year].0 || '')
           countries[country]['abortions-Less than 15 years']?[year].1
       else if field == 'pregnancies-Teen'
         o =
           (countries[country]['pregnancies-From 10 to 14 years']?[year].0 || '') + (countries[country]['pregnancies-From 15 to 19 years']?[year].0 || '')
           countries[country]['pregnancies-From 10 to 14 years']?[year].1
+      else if field == "family-incomplete"
+        o =
+          (countries[country]['family-Child not living with parents']?[year]?0 || '') + (countries[country]['family-Child living with a single parent']?[year]?0 || '')
+          countries[country]['family-Child not living with parents']?[year]?1
       else
         (countries[country]?[field]?[year]) || ['']
 

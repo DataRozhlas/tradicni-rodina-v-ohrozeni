@@ -27,6 +27,7 @@ ig.processData = ->
     "divorce-rate"
     "marriage-rate"
     "hiv-rate"
+    "family-incomplete"
 
   countries = for line in lines
     [id, countryName, teenFemales, ...years] = line.split "\t"

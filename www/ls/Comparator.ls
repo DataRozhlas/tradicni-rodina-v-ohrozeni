@@ -42,6 +42,7 @@ metricsHuman =
   "fertility-rate"          : new Metric "fertility-rate" "Porodnost" "Narozených dětí na 1000 obyvatel"
   "pregnancies-teen-rate"   : new Metric "pregnancies-teen-rate" "Těhotenství náctiletých", "Těhotenství dívek mezi 10 a 19 lety na 100 000 dívek v populaci"
   "divorce-rate"            : new Metric "divorce-rate" "Rozvodovost" "Rozvodů na 1000 obyvatel"
+  "family-incomplete"       : new Metric "family-incomplete" "Neúplné rodiny" "% dětí vyrůstajících bez obou rodičů"
   "abortions-total"         : new Metric "abortions-total" "Potraty"
   "abortions-teen"          : new Metric "abortions-teen" "Potraty náctiletých"
   "age-at-first-child"      : new Metric "age-at-first-child" "Věk matky při narození prvního dítěte"
@@ -286,7 +287,7 @@ class ig.Comparator
       ..append \span
         ..attr \class "subheader subheader1"
         ..html "<b><span class='unit'></span> v Evropě mezi roky 1990 a 2012.</b><br>Zobrazit "
-        ..selectAll \span.link .data <[divorce-rate marriage-rate fertility-rate births-outside-marriage pregnancies-teen-rate abortions-rate]> .enter!append \span
+        ..selectAll \span.link .data <[divorce-rate marriage-rate fertility-rate births-outside-marriage family-incomplete pregnancies-teen-rate abortions-rate]> .enter!append \span
           ..attr \class \link
           ..append \a
             ..attr \href \#
