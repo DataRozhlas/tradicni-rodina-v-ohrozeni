@@ -43,12 +43,12 @@ ig.processData = ->
           null
         yearData[metric] = {value, footnotes}
       abortionsRate = if yearData['abortions-total'].value and yearData['pregnancies-total'].value
-        yearData['abortions-total'].value / (yearData['pregnancies-total'].value + yearData['abortions-total'].value)
+        yearData['abortions-total'].value / (yearData['pregnancies-total'].value + yearData['abortions-total'].value) * 100
       else
         null
       yearData['abortions-rate'] = value: abortionsRate
       teenPregRate = if yearData['pregnancies-teen'].value and yearData['abortions-teen'].value
-        (yearData['pregnancies-teen'].value + yearData['abortions-teen'].value) / teenFemales
+        (yearData['pregnancies-teen'].value + yearData['abortions-teen'].value) / teenFemales * 100
       else
         null
       yearData['pregnancies-teen-rate'] = value: teenPregRate

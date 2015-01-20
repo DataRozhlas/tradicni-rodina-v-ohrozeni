@@ -36,16 +36,16 @@ sensibleCountries =
 class Metric
   (@id, @name, @unit = '') ->
 metricsHuman =
-  "abortions-total"         : new Metric "abortions-total" "Potraty"
-  "abortions-rate"         : new Metric "abortions-rate" "Potraty" "Podíl potratů k počtu těhotenství"
-  "abortions-teen"          : new Metric "abortions-teen" "Potraty náctiletých"
-  "births-outside-marriage" : new Metric "births-outside-marriage" "Děti narozené mimo manželství" "Podíl dětí narozených mimo manželství"
+  "marriage-rate"           : new Metric "marriage-rate" "Sňatečnost" "Sňatků na 1000 obyvatel"
+  "abortions-rate"          : new Metric "abortions-rate" "Potraty" "Potratů na 100 těhotenství"
+  "births-outside-marriage" : new Metric "births-outside-marriage" "Děti narozené mimo manželství" "% dětí se narodilo mimo manželství"
   "fertility-rate"          : new Metric "fertility-rate" "Porodnost" "Narozených dětí na 1000 obyvatel"
+  "pregnancies-teen-rate"   : new Metric "pregnancies-teen-rate" "Těhotenství náctiletých", "Těhotenství dívek mezi 10 a 19 lety na 100 000 dívek v populaci"
+  "divorce-rate"            : new Metric "divorce-rate" "Rozvodovost" "Rozvodů na 1000 obyvatel"
+  "abortions-total"         : new Metric "abortions-total" "Potraty"
+  "abortions-teen"          : new Metric "abortions-teen" "Potraty náctiletých"
   "age-at-first-child"      : new Metric "age-at-first-child" "Věk matky při narození prvního dítěte"
   "pregnancies-total"       : new Metric "pregnancies-total" "Těhotenství"
-  "pregnancies-teen-rate"   : new Metric "pregnancies-teen-rate" "Těhotenství náctiletých", "Těhotenství dívek mezi 10 a 19 lety na 1000 dívek v populaci"
-  "divorce-rate"            : new Metric "divorce-rate" "Rozvodovost" "Rozvodů na 1000 obyvatel"
-  "marriage-rate"           : new Metric "marriage-rate" "Sňatečnost" "Sňatků na 1000 obyvatel"
   "hiv-rate"                : new Metric "hiv-rate" "Úmrtí na HIV"
 
 class ig.Comparator

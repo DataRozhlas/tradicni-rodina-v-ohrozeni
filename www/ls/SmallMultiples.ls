@@ -10,10 +10,10 @@ firstCountries =
 class Metric
   (@id, @name, @unit = '') ->
 metricsHuman =
-  "abortions-rate"          : new Metric "abortions-rate" "Potraty" "Podíl potratů k počtu těhotenství"
-  "births-outside-marriage" : new Metric "births-outside-marriage" "Děti narozené mimo manželství" "Podíl dětí narozených mimo manželství"
+  "abortions-rate"          : new Metric "abortions-rate" "Potraty" "Počet potratů na 100 těhotenství"
+  "births-outside-marriage" : new Metric "births-outside-marriage" "Děti narozené mimo manželství" "Procento dětí narozených mimo manželství"
   "fertility-rate"          : new Metric "fertility-rate" "Porodnost" "Narozených dětí na 1000 obyvatel"
-  "pregnancies-teen-rate"   : new Metric "pregnancies-teen-rate" "Těhotenství náctiletých", "Těhotenství dívek mezi 10 a 19 lety na 1000 dívek v populaci"
+  "pregnancies-teen-rate"   : new Metric "pregnancies-teen-rate" "Těhotenství náctiletých", "Těhotenství dívek mezi 10 a 19 lety na 100 000 dívek v populaci"
   "divorce-rate"            : new Metric "divorce-rate" "Rozvodovost" "Rozvodů na 1000 obyvatel"
   "marriage-rate"           : new Metric "marriage-rate" "Sňatečnost" "Sňatků na 1000 obyvatel"
 class ig.SmallMultiples
