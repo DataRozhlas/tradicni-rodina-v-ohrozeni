@@ -6,11 +6,7 @@ firstCountries =
   "Belgium"
   "Denmark"
   "Norway"
-firstCountries =
-  "Portugal"
-  "Greece"
-  "Spain"
-  "Ireland"
+
 class Metric
   (@id, @name, @unit = '') ->
 metricsHuman =
