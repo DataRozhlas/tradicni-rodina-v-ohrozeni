@@ -17,7 +17,7 @@ metricsHuman =
   "divorce-rate"            : new Metric "divorce-rate" "Rozvodovost" "Rozvodů na 1000 obyvatel"
   "marriage-rate"           : new Metric "marriage-rate" "Sňatečnost" "Sňatků na 1000 obyvatel"
 class ig.SmallMultiples
-  lineHeight: 100
+  lineHeight: 75
   textWidth: 200
   graphWidth: 123
   startYear: 1982
