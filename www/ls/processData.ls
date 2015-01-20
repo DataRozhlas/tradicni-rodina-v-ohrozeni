@@ -5,9 +5,9 @@ class Country
     for type, year of @dates
       index = allYears.indexOf year
       @firstYears[type] = @years[index]
-    if @name == \Slovakia
+    if @id == \Slovakia
       @isSlovakia = yes
-    else if @name == "Czech Republic"
+    else if @id == "Czech Republic"
       @isCzech = yes
     for year in @years
       year.country = @
