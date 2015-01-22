@@ -21,5 +21,12 @@ class ig.GodCorrelator extends ig.Correlator
             y = that.value
       {x, y, name, id}
     data .= filter -> it.y isnt null and it.x isnt null
-
     @correlate data
+    @svg.selectAll \circle
+      .attr \class ->
+        if it.id == "Czech Republic"
+          "czech"
+        else if it.id == "Slovakia"
+          "slovakia"
+        else
+          ""
