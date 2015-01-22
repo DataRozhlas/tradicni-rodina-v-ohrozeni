@@ -30,7 +30,7 @@ ig.processData = ->
     "family-incomplete"
 
   countries = for line in lines
-    [id, countryName, teenFemales, ...years] = line.split "\t"
+    [id, countryName, god, lifeForce, noGod, teenFemales, ...years] = line.split "\t"
     teenFemales = parseInt teenFemales, 10
     years .= map (d, i) ->
       year = allYears[i]
@@ -55,6 +55,9 @@ ig.processData = ->
       yearData['pregnancies-teen-rate'] = value: teenPregRate
       yearData
     country = new Country id, countryName, dates[id], years
+      ..god       = god
+      ..noGod     = noGod
+      ..lifeForce = lifeForce
   countries
 
 processDates = ->
