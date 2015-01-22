@@ -16,6 +16,9 @@ init = ->
   if ig.containers.multiples
     container = d3.select that
     new ig.SmallMultiples container, data
+  if ig.containers.correlator
+    container = d3.select that
+    new ig.GodCorrelator container, data
 
 
   scrollTween = (offset) ->

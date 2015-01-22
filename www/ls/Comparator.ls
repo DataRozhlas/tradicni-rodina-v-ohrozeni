@@ -96,7 +96,7 @@ class ig.Comparator
       ..x ~> @margin.left + it.comparatorOffset * (2 * @terminatorRadius + 1.5) + @xScale it.year
       ..y ~> @margin.top + @yScale it.comparatorRate
       ..clipExtent [[0,0], [width, height]]
-    @graphTip = new ig.GraphTip @
+    @graphTip = new ig.ComparatorTip @
     @display "marriage-rate"
 
   toggleDrawChangeFromFirstCivil: ->

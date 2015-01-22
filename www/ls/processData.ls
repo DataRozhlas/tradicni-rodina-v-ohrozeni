@@ -55,9 +55,9 @@ ig.processData = ->
       yearData['pregnancies-teen-rate'] = value: teenPregRate
       yearData
     country = new Country id, countryName, dates[id], years
-      ..god       = god
-      ..noGod     = noGod
-      ..lifeForce = lifeForce
+      ..god       = parseFloat god
+      ..noGod     = parseFloat noGod
+      ..lifeForce = parseFloat lifeForce
   countries
 
 processDates = ->

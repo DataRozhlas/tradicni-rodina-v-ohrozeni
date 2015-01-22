@@ -18,7 +18,7 @@ externalData =
   "dates": "#__dirname/data/dates.tsv"
 
 preferScripts = <[ postInit.js _loadData.js ../data.js init.js _loadExternal.js]>
-deferScripts = <[ kandidatka.js base.js ]>
+deferScripts = <[ GodCorrelator.js kandidatka.js base.js ]>
 develOnlyScripts = <[ _loadData.js _loadExternal.js]>
 gzippable = <[ www/index.html www/script.js ]>
 build-styles = (options = {}, cb) ->

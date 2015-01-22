@@ -1,0 +1,44 @@
+&.god-correlator
+  position relative
+  left -30px
+  .correlator-container
+    width 700px
+    height 500px
+    svg
+      circle
+        fill prideViolet
+      .point
+        line
+          stroke-width 1
+          stroke lighten(prideViolet, 90%)
+          shape-rendering crispEdges
+          opacity 0
+        &.active
+          line
+            opacity 1
+      .axis
+        line
+          stroke-width 1
+          stroke lighten(prideViolet, 60%)
+          shape-rendering crispEdges
+        text
+          opacity 0
+          font-size 12px
+          fill desaturate(prideViolet, 80%)
+        g:first-child
+        g:last-child
+          text
+            opacity 1
+      &.hasActive
+        .axis
+          g:first-child
+          g:last-child
+            text
+              opacity 0
+          g.active
+            text
+              opacity 1
+    .graph-tip
+      width auto
+      .content
+        min-height 0px

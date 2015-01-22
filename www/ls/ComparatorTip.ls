@@ -1,4 +1,4 @@
-class ig.GraphTip
+class ig.ComparatorTip
   (@graph) ->
     @element = @graph.parentElement.append \div
       ..attr \class "graph-tip"
@@ -7,13 +7,13 @@ class ig.GraphTip
     @arrow = @element.append \div
       ..attr \class \arrow
 
-  display: (x, y, content) ->
+  display: (point, content) ->
     @element.classed \active yes
     @content.html content
     width = @element.node!clientWidth
     height = @element.node!clientHeight
-    xPosition = @graph.margin.left + x
-    yPosition = @graph.margin.top + y
+    xPosition = @graph.margin.left + point.comparatorOffset * (2 * @graph.terminatorRadius + 1.5) + @graph.xScale point.year
+    yPosition = @graph.margin.top + @graph.yScale point.comparatorRate
     left = xPosition - width / 2
     offset = 0
     if left < 0
