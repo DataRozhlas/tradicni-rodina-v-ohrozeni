@@ -32,11 +32,15 @@ class ig.GodCorrelator extends ig.Correlator
     @drawSelector!
     super @correlatorContainer
     @labelX = -> "#{ig.utils.formatNumber it.x * 100} %"
-    @labelY = -> "#{ig.utils.formatNumber it.y, 1}"
+
     @labelPoint = -> it.name
     @draw metrics.0
 
   draw: (metric) ->
+    @labelY = if metric.id in <[births-outside-marriage family-incomplete abortions-rate]>
+      -> "#{ig.utils.formatNumber it.y, 1} %"
+    else
+      -> "#{ig.utils.formatNumber it.y, 1}"
     data = @data.map (country) ->
       x = country.god# + country.lifeForce
       {name, id} = country
@@ -64,7 +68,7 @@ class ig.GodCorrelator extends ig.Correlator
     variance = (corrCoef ** 2) * 100
     influence = switch
     | variance < 15 => "vůbec neovlivňuje"
-    | variance < 30 => "prakticky neovlivňuje"
+    | variance < 20 => "prakticky neovlivňuje"
     | variance < 50 => "téměř neovlivňuje"
     | variance < 60 => "mírně ovlivňuje"
     | otherwise => "silně ovlivňuje"
