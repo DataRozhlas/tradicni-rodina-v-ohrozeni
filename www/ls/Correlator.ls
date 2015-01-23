@@ -59,7 +59,7 @@ class ig.Correlator
     @drawYAxis data
 
   drawXAxis: (data) ->
-    data = data.slice!sort (a, b) -> a.x - b.x
+    extent = d3.extent data.map (.x)
     @xAxisElements = @xAxisG.selectAll \g .data data, (.id)
       ..enter!append \g
         ..attr \transform ~> "translate(#{@xScale it.x}, 0)"
@@ -71,6 +71,12 @@ class ig.Correlator
         ..append \text
           ..attr \text-anchor \middle
           ..attr \y 20
+      ..exit!remove!
+      ..attr \class ->
+        switch it.x
+        | extent.0 => "min"
+        | extent.1 => "max"
+        | otherwise => ""
       ..transition!
         ..duration 800
         ..attr \transform ~> "translate(#{@xScale it.x}, 0)"
@@ -79,6 +85,7 @@ class ig.Correlator
 
   drawYAxis: (data) ->
     data = data.slice!sort (a, b) -> a.y - b.y
+    extent = d3.extent data.map (.y)
     @yAxisElements = @yAxisG.selectAll \g .data data, (.id)
       ..enter!append \g
         ..attr \transform ~> "translate(0, #{@yScale it.y})"
@@ -91,6 +98,12 @@ class ig.Correlator
           ..attr \text-anchor \end
           ..attr \y 5
           ..attr \x -5
+      ..exit!remove!
+      ..attr \class ->
+        switch it.y
+        | extent.0 => "min"
+        | extent.1 => "max"
+        | otherwise => ""
       ..transition!
         ..duration 800
         ..attr \transform ~> "translate(0, #{@yScale it.y})"

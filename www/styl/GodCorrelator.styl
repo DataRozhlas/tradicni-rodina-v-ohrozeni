@@ -58,14 +58,14 @@
           opacity 0
           font-size 12px
           fill desaturate(prideViolet, 80%)
-        g:first-child
-        g:last-child
+        g.min
+        g.max
           text
             opacity 1
       &.hasActive
         .axis
-          g:first-child
-          g:last-child
+          g.min
+          g.max
             text
               opacity 0
           g.active
