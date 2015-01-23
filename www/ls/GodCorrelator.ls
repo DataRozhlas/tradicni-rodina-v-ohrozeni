@@ -82,8 +82,9 @@ class ig.GodCorrelator extends ig.Correlator
       ..append \div
         ..attr \class \title
         ..html "Zobrazit jinou metriku:"
-      ..append \ul .selectAll \li .data metrics .enter!append \li
-        ..append \a
+      ..append \div
+        ..attr \class \list
+        ..selectAll \a .data metrics .enter!append \a
           ..html -> it.title
           ..attr \href \#
           ..on \click ~>
