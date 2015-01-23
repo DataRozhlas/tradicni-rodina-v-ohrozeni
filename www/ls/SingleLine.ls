@@ -16,6 +16,7 @@ class ig.SingleLine
     dataline = @country.years
       .filter -> 1985 < it.year
       .map ~> {year: it.year, value: it[@metric].value}
+    console.log dataline.map -> "#{it.year}: #{it.value}"
     @xScale = d3.scale.linear!
       ..domain d3.extent dataline.map (.year)
       ..range [0, @width]
