@@ -1,9 +1,38 @@
 &.god-correlator
   position relative
   left -30px
+  margin-top 50px
+  .supplemental
+    width 139px
+    float left
+  .selector
+    float left
+    clear left
+    margin-top 20px
+    .title
+      float left
+      font-weight bold
+      width 200px
+    ul
+      float left
+      margin 0px
+      padding 0px
+      list-style none
+      li
+        float left
+        margin 0px 5px
+        a
+          color #4 !important
+          &:hover
+            text-decoration none
+          &.active
+            color prideOrange !important
+
   .correlator-container
     width 700px
     height 500px
+    float left
+    position relative
     svg
       circle
         fill prideViolet
@@ -46,3 +75,4 @@
       width auto
       .content
         min-height 0px
+
