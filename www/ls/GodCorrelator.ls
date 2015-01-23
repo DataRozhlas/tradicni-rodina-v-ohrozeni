@@ -2,24 +2,31 @@ metrics =
   * id: "divorce-rate"
     title: "rozvodovost"
     amount: "hodnoty rozvodovosti"
+    more: "více rozvodů"
   * id: "marriage-rate"
     title: "sňatečnost"
     amount: "hodnoty sňatečnosti"
+    more: "více svateb"
   * id: "fertility-rate"
     title: "porodnost"
     amount: "hodnoty porodnosti"
+    more: "více porodů"
   * id: "births-outside-marriage"
     title: "mimomanželské děti"
     amount: "podílu mimomanželských dětí"
+    more: "více mimomanželských dětí"
   * id: "family-incomplete"
     title: "neúplné rodiny"
     amount: "podílu neúplných rodil"
+    more: "více neúplných rodin"
   * id: "pregnancies-teen-rate"
     title: "těhotenství náctiletých"
     amount: "hodnoty těhotenství náctiletých"
+    more: "více těhotenství náctiletých"
   * id: "abortions-rate"
     title: "potratovost"
     amount: "podílu potratů"
+    more: "více potratů"
 
 class ig.GodCorrelator extends ig.Correlator
   (@parentElement, data) ->
@@ -34,6 +41,7 @@ class ig.GodCorrelator extends ig.Correlator
     @labelX = -> "#{ig.utils.formatNumber it.x * 100} %"
 
     @labelPoint = -> it.name
+    @drawSupplementalLabels!
     @draw metrics.0
 
   draw: (metric) ->
@@ -79,6 +87,7 @@ class ig.GodCorrelator extends ig.Correlator
       "
     @selectorLinks
       ..classed \active -> it is metric
+    @ySupplementalLabel.html metric.more + " ›"
 
   drawSelector: ->
     selector = @parentElement.append \div
@@ -95,3 +104,11 @@ class ig.GodCorrelator extends ig.Correlator
             d3.event.preventDefault!
             @draw it
     @selectorLinks = selector.selectAll \a
+
+  drawSupplementalLabels: ->
+    @xSupplementalLabel = @parentElement.append \div
+      .attr \class \supplemental-x
+      .html "více věřících ›"
+    @ySupplementalLabel = @parentElement.append \div
+      .attr \class \supplemental-y
+      .html "vyšší porodnost ›"
