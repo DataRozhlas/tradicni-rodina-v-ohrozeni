@@ -1,23 +1,36 @@
 inited = no
 init = ->
   return if inited
+  $('.eu-map').html('<img src="https://samizdat.cz/data/tradicni-rodina-v-ohrozeni/www/img/map.svg" alt="" width="1000">
+    <ul class="legend">
+      <li>Stejnopohlavní manželství</li>
+      <li>Registrované partnerství</li>
+      <li>Žádná úprava stejnopohlavních svazků</li>
+      <li>Ústavou zakázané stejnopohlavní manželství</li>
+    </ul>
+    <i>Červeně vybarvené státy umožňující manželství osobám stejného pohlaví, oranžové státy s registrované partnerství či jeho obdobu. Tmavě šedá značí státy s ústavním vymezením manželství jako svazku muže a ženy. Světle šedé státy homosexuální partnerství neuznávají. Obrázek <a href="http://en.wikipedia.org/wiki/LGBT_rights_in_Europe#mediaviewer/File:Same_sex_marriage_map_Europe_detailed.svg" target="_blank">CC BY-SA Wikipeda</a>.</i>')
   inited := yes
   ig.fit!
   data = ig.processData!
   if ig.containers.comparator
     container = d3.select ig.containers.comparator
+      ..html ''
     comparator = new ig.Comparator container, data
   if ig.containers.czech
     container = d3.select that
+      ..html ''
     singleLineCz = new ig.SingleLine container, data[2], 'marriage-rate'
   if ig.containers.greece
     container = d3.select that
+      ..html ''
     singleLineGreece = new ig.SingleLine container, data[5], 'marriage-rate'
   if ig.containers.multiples
     container = d3.select that
+      ..html ''
     new ig.SmallMultiples container, data
   if ig.containers.correlator
     container = d3.select that
+      ..html ''
     new ig.GodCorrelator container, data
 
   scrollTween = (offset) ->
