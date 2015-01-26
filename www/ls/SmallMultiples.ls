@@ -3,7 +3,6 @@ firstCountries =
   "Slovakia"
   "Poland"
   "Great Britain"
-  "Belgium"
   "Denmark"
   "Norway"
 
