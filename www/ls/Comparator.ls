@@ -237,11 +237,21 @@ class ig.Comparator
     voronoi = @voronoi values
       .filter -> it
     @voronoiSvg.selectAll \path .remove!
+    touchedPoint = null
     @voronoiSvg.selectAll \path .data voronoi .enter!append \path
       ..attr \d polygon
       ..on \mouseover ~>
         @displayGraphTip it.point
         @highlightCountry it.point.country
+      ..on \touchstart ~>
+        if touchedPoint is it.point
+          @graphTip.hide!
+          @downlightCountry touchedPoint.country
+          touchedPoint := null
+        else
+          touchedPoint := it.point
+          @displayGraphTip it.point
+          @highlightCountry it.point.country
       ..on \mouseout ~>
         @graphTip.hide!
         @downlightCountry it.point.country
