@@ -21,7 +21,13 @@ class ig.SmallMultiples
   graphWidth: 123
   startYear: 1982
   endYear: 2012
-  (@parentElement, @countries) ->
+  (@parentElement, countries) ->
+    @countries = countries
+      .filter (.name)
+      .sort (a, b) ->
+        | a.searchable > b.searchable => 1
+        | a.searchable < b.searchable => -1
+        | otherwise => 0
     @metrics = <[fertility-rate births-outside-marriage pregnancies-teen-rate abortions-rate marriage-rate divorce-rate]>
     @parentElement.append \div
       ..attr \class \header

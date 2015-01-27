@@ -12,6 +12,15 @@ class Country
     for year in @years
       year.country = @
 
+    @searchable = if @name
+      that
+        .replace "Á" "Az"
+        .replace "Č" "Cz"
+        .replace "Ř" "Rz"
+        .replace "Š" "Sz"
+    else
+      ""
+
 ig.processData = ->
   dates = processDates!
   lines = ig.data.stats.split "\n"
