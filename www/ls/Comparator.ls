@@ -39,7 +39,7 @@ metricsHuman =
   "marriage-rate"           : new Metric "marriage-rate" "Sňatečnost" "Sňatků na 1000 obyvatel"
   "abortions-rate"          : new Metric "abortions-rate" "Potraty" "Potratů na 100 těhotenství"
   "births-outside-marriage" : new Metric "births-outside-marriage" "Děti narozené mimo manželství" "% dětí se narodilo mimo manželství"
-  "fertility-rate"          : new Metric "fertility-rate" "Porodnost" "Narozených dětí na 1000 obyvatel"
+  "fertility-rate"          : new Metric "fertility-rate" "Plodnost" "Narozených dětí na 1&nbsp;ženu"
   "pregnancies-teen-rate"   : new Metric "pregnancies-teen-rate" "Těhotenství náctiletých", "Těhotenství dívek mezi 10 a 19 lety na 100 000 dívek v populaci"
   "divorce-rate"            : new Metric "divorce-rate" "Rozvodovost" "Rozvodů na 1000 obyvatel"
   "family-incomplete"       : new Metric "family-incomplete" "Neúplné rodiny" "% dětí vyrůstajících bez obou rodičů"
